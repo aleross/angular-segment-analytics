@@ -1,0 +1,29 @@
+{
+    "name": "angular-segment-analytics",
+    "version": "1.0.0",
+    "homepage": "https://github.com/aleross/angular-segment-analytics",
+    "authors": [
+        "Alex Ross <davidross.alex@gmail.com>"
+    ],
+    "description": "AngularJS module for easily adding Segment analytics to any app. https://segment.com",
+    "main": "angular-segment.min.js",
+    "keywords": [
+        "segment", "segmentio", "angular", "angularjs", "analytics", "angular analytics", "angularjs analytics"
+    ],
+    "license": "MIT",
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests",
+        "tmp",
+        "*.iml",
+        "Gruntfile.js",
+        "package.json",
+        "grunt"
+    ],
+    "dependencies": {
+        "angular": "latest"
+    }
+}
