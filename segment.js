@@ -140,7 +140,7 @@ angular.module('ngSegment').provider('segment', function () {
     };
 
     // Returns segment service
-    this.$get = function ($injector, $rootScope, $location) {
+    this.$get = ['$injector', '$rootScope', '$location', function ($injector, $rootScope, $location) {
 
         // Make condition injectable
         if (typeof condition === 'function') {
@@ -155,7 +155,7 @@ angular.module('ngSegment').provider('segment', function () {
         });
 
         return service;
-    };
+    }];
 
     // Debug logging. Enable with segmentProvider.enableDebug(); or segment.debug = true;
     function debug() {

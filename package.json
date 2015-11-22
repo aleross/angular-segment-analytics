@@ -1,7 +1,12 @@
 {
-  "name": "angularjs-segment",
-  "version": "1.0.0",
+  "name": "angular-segment-analytics",
   "devDependencies": {
-    "grunt": "^0.4.5"
+    "grunt": "^0.4.5",
+    "load-grunt-config": "^0.17.2",
+    "load-grunt-tasks": "^3.2.0",
+    "semver": "^5.0.1",
+    "grunt-contrib-uglify": "^0.9.1",
+    "grunt-bump": "^0.3.1",
+    "grunt-prompt": "^1.3.0"
   }
 }
