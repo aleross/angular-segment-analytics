@@ -1,4 +1,4 @@
-angular.module('ngSegment').provider('segment', function () {
+angular.module('ngSegment', []).provider('segment', function () {
     'use strict';
 
     // Set up Segment global object and event queue. Enables service to be called before script has loaded.
