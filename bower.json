@@ -1,12 +1,12 @@
 {
     "name": "angular-segment-analytics",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "homepage": "https://github.com/aleross/angular-segment-analytics",
     "authors": [
         "Alex Ross <davidross.alex@gmail.com>"
     ],
     "description": "AngularJS module for easily adding Segment analytics to any app. https://segment.com",
-    "main": "angular-segment.min.js",
+    "main": "segment.min.js",
     "keywords": [
         "segment", "segmentio", "angular", "angularjs", "analytics", "angular analytics", "angularjs analytics"
     ],
