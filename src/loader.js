@@ -25,7 +25,7 @@
                         script.src = ('https:' === document.location.protocol
                                 ? 'https://' : 'http://')
                             + 'cdn.segment.com/analytics.js/v1/'
-                            + config.apiKey + '/analytics.min.js';
+                            + apiKey + '/analytics.min.js';
 
                         script.onerror = function () {
                             console.error('Error loading Segment library.');

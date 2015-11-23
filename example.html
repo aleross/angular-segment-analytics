@@ -13,19 +13,21 @@
         <script>
 
             // Provider configuration
-            angular.module('example', ['ngSegment']).config(function (segmentProvider, segmentLoaderProvider) {
-                console.log('segmentProvider:', segmentProvider);
-                console.log('segmentLoaderProvider:', segmentLoaderProvider);
+            angular.module('example', ['ngSegment']).config(function (segmentProvider) {
 
-            //    segmentLoaderProvider.load();
+                segmentProvider.setKey('gPsIwsLFg5XqTnpcbF1D3ZPkw41bNY6b').setAutoload(false);
+
+                segmentProvider.setCondition(function ($http) {
+                    return typeof $http === 'function';
+                });
             });
 
             // Service configuration and usage
             angular.module('example').controller('ExampleController', function (segment, segmentLoader) {
 
-                console.log('segment:', segment);
-                console.log('segmentLoader:', segmentLoader);
-            //    segmentLoader.load();
+                segment.track('controller test');
+
+                segmentLoader.load(segment.config.apiKey);
             });
 
             angular.module('example').constant('segmentConfig', {
