@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html ng-app="example">
+    <head>
+        <title>ngSegment Example</title>
+
+        <!-- Angular -->
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.js"></script>
+
+        <!-- ngSegment -->
+        <script src="segment.js"></script>
+
+        <!-- Example Angular application -->
+        <script>
+
+            // Provider configuration
+            angular.module('example', ['ngSegment']).config(function (segmentProvider, segmentLoaderProvider) {
+                console.log('segmentProvider:', segmentProvider);
+                console.log('segmentLoaderProvider:', segmentLoaderProvider);
+
+            //    segmentLoaderProvider.load();
+            });
+
+            // Service configuration and usage
+            angular.module('example').controller('ExampleController', function (segment, segmentLoader) {
+
+                console.log('segment:', segment);
+                console.log('segmentLoader:', segmentLoader);
+            //    segmentLoader.load();
+            });
+
+            angular.module('example').constant('segmentConfig', {
+                debug: false
+            });
+
+            // Events constant example. This is optional.
+            angular.module('example').constant('ExampleEvents', {
+
+            });
+        </script>
+
+        <!-- Bootstrap -->
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body ng-controller="ExampleController">
+        <div class="jumbotron">
+            <div class="container">
+                <h1>Example</h1>
+            </div>
+        </div>
+        <div class="container">
+
+        </div>
+    </body>
+</html>
