@@ -1,6 +1,5 @@
 # ngSegment: [Segment](https://segment.com) analytics for [AngularJS](https://angular.io/)
-Highly configurable module for easily adding Segment analytics to any Angular app. Confguration via a provider, service, or constant.
-## Table of Contents
+Highly configurable module for easily adding Segment analytics to any Angular app.
 
 
 ## Installation
