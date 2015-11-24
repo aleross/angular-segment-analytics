@@ -17,14 +17,14 @@ Add `'ngSegment'` to your main module's list of dependencies: `angular.module('m
 
 ## Usage
 
-All you need to start using Segment is to set your API key using any of the configuration methods provided (**provider**, **constant**, or **service**).
+Simply set your API key using any of the configuration methods provided (**provider**, **constant**, or **service**), and you're ready to start using Segment. See the Configuration API for advanced configuration.
 
 ```js
 // analytics.js will be asynchronously autoloaded
 segmentProvider.setKey('abc');
 ```
 
-All Segment methods (see [Analytics.js](https://segment.com/docs/libraries/analytics.js/)) are available. You can begin using the `segment` service immediately, even before configuration or before the analytics.js script has been loaded. Method calls will be queued and replayed once the service has been configured and the script has been loaded.
+All Segment methods (see [Analytics.js](https://segment.com/docs/libraries/analytics.js/)) are available. You can begin using the `segment` service immediately, even before setting your API key or before the analytics.js script has been asynchronously loaded. Method calls will be queued and replayed once Analytics.js is available.
 
 ```js
 $scope.myAction = function () {
@@ -95,12 +95,18 @@ angular.module('myApp').controller(function (segment) {
 
 ## Configuration API
 
-All configuration methods are chainable: `segmentProvider.setKey('xx').setAutoload(false).setDebug(true);`
+The configuration API is available on the `segmentProvider` and `segment` service. All configuration methods are chainable:
+```js
+segmentProvider
+    .setKey('xx')
+    .setAutoload(false)
+    .setDebug(true);
+```
 
-### segment.setKey
+### `setKey(string)`
 
-### setCondition
-**Default:* none
+### `setCondition(injectable callback)`
+**Default:** none
 ```js
 // Disable tracking for non-production environments
 segmentProvider.setCondition(function ($rootScope) {
@@ -118,7 +124,7 @@ segmentProvider.setCondition(function ($rootScope, method, arguments) {
 });
 ```
 
-### setAutoload
+### setAutoload(boolean)
 **Default:** `true`
 
 If you set autoload to false, you can later load the Segment analytics.js script on-demand using the `segmentLoader` or `segmentLoaderProvider`:
@@ -127,14 +133,14 @@ If you set autoload to false, you can later load the Segment analytics.js script
   segment.loader(segment.config.apiKey);
 ```
 
-### segment.setDelay
+### `setDelay(integer)`
 **Default:** `0ms` (no delay)
 
 ### setEvents(object)
 **Default:** none
 
-### setDebug
-**Default:* `false`
+### setDebug(boolean)
+**Default:** `false`
 
 ### setConfig(object)
 
