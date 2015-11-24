@@ -35,6 +35,7 @@ $scope.myAction = function () {
 Continue reading about the configuration options, or jump to the API documentation.
 
 
+## Configuration Options
 
 ### Provider
 
@@ -56,7 +57,7 @@ angular.module('myApp').config(function (segmentProvider) {
     segmentProvider.identify('user-id', {});
 });
 ```
-Read more about calling analytics.js methods below.
+Read more about calling analytics.js in the API Documentation.
 
 ### Constant
 
@@ -92,7 +93,7 @@ angular.module('myApp').controller(function (segment) {
 
 ```
 
-## Configuration
+## Configuration API
 
 All configuration methods are chainable: `segmentProvider.setKey('xx').setAutoload(false).setDebug(true);`
 
