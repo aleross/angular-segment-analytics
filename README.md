@@ -136,10 +136,26 @@ segmentProvider.setCondition(function ($rootScope, method, arguments) {
 ### setAutoload(boolean)
 **Default:** `true`
 
-If you set autoload to false, you can later load the Segment analytics.js script on-demand using the `segmentLoader` or `segmentLoaderProvider`:
+Set autoload to false if you're including analytics.js in your build script.
+
+If you need to load the Segment analytics.js script on-demand, you can use the `segmentLoader` or `segmentLoaderProvider`:
 
 ```js
-  segment.loader(segment.config.apiKey);
+angular.module('myApp').controller('MyController', function (segmentLoader) {
+    segmentLoader.load('abc');
+});
+```
+If you already set the API key via configuration, you can access it using the segment service:
+```js
+angular.module('myApp').controller('MyController', function (segmentLoader) {
+    segmentLoader.load(segment.config.apiKey);
+});
+```
+or via provider in your application's `config()` block:
+```js
+angular.module('myApp').config(function (segmentLoaderProvider) {
+    segmentLoaderProvider.load('abc');
+});
 ```
 
 ### setDelay(integer)
