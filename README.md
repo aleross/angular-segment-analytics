@@ -27,8 +27,14 @@ segmentProvider.setKey('abc');
 All Segment methods (see [Analytics.js](https://segment.com/docs/libraries/analytics.js/)) are available. You can begin using the `segment` service immediately, even before setting your API key or before the analytics.js script has been asynchronously loaded. Method calls will be queued and replayed once Analytics.js is available.
 
 ```js
+// Event tracking
 $scope.myAction = function () {
     segment.track('action', { prop: 'value' });
+});
+
+// Pageview tracking
+$rootScope.$on('$routeChangeSuccess', function () {
+  segment.pageview($location.path());
 });
 ```
 
@@ -103,9 +109,9 @@ segmentProvider
     .setDebug(true);
 ```
 
-### `setKey(string)`
+### setKey(string)
 
-### `setCondition(injectable callback)`
+### setCondition(injectable callback)
 **Default:** none
 ```js
 // Disable tracking for non-production environments
@@ -133,7 +139,7 @@ If you set autoload to false, you can later load the Segment analytics.js script
   segment.loader(segment.config.apiKey);
 ```
 
-### `setDelay(integer)`
+### setDelay(integer)
 **Default:** `0ms` (no delay)
 
 ### setEvents(object)
@@ -148,7 +154,7 @@ If you set autoload to false, you can later load the Segment analytics.js script
 
 ## API Documentation
 
-Implements these methods from analytics.js
+The `segment` service and `segmentProvider` implement most methods from [Analytics.js](https://segment.com/docs/libraries/analytics.js/). Check [segmentDefaultConfig.methods](https://github.com/aleross/angular-segment-analytics/blob/master/src/config.js) for a complete list.
 
 ### Page tracking
 ```js
