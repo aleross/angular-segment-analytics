@@ -76,8 +76,7 @@ Read more about [AngularJS constants](https://docs.angularjs.org/api/auto/servic
 ```js
 angular.module('myApp').constant('segmentConfig', {
 
-  // These values will be automatically
-  // loaded by the segment service
+  // These values will automatically be loaded by the segment service
   apiKey: 'abc',
   condition: function ($rootScope) {
       return $rootScope.isProduction;
@@ -180,6 +179,7 @@ The `segment` service and `segmentProvider` implement most methods from [Analyti
 $rootScope.$on('$routeChangeSuccess', function () {
   segment.pageview($location.path());
 });
+```
 
 ### Event tracking
 ```js
