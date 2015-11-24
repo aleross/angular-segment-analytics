@@ -20,14 +20,45 @@ Add `'ngSegment'` to your main module's list of dependencies: `angular.module('m
 The order they're applied in:
 
 ### Provider
+
+Read the AngularJS documentation to learn more about [module configuration blocks](https://docs.angularjs.org/guide/module#module-loading-dependencies).
+
+```js
+angular.module('myApp').config(function (segmentProvider) {
+    segmentProvider
+        .setKey('xx')
+        .setAutoload(false)
+        .setCondition(function ($rootScope) {
+            return $rootScope.isProduction;
+        });
+});
+```
+
+All of the [analytics.js](https://segment.com/docs/libraries/analytics.js/) methods are available on both the `segmentProvider` and `segment` service. You might want to call [.identify()](https://segment.com/docs/libraries/analytics.js/#identify) during your app's config block if you have your user's information available at that time:
+```js
+angular.module('myApp').config(function (segmentProvider) {
+    segmentProvider.identify('user-id', {});
+});
+```
+Read below to learn about calling analytics.js methods.
+
 ### Constant
 
-You can override any of the configuration options available in the defaultSegmentConfig constant. Constant values are only available _after_ the `module.run()` phrase of your app. If you need to provide configuration during the `module.config()` phrase, use `segmentProvider` instead.
+You can set any of the configuration options available by providing your own `segmentConfig` constant. You only need to register your constant with your own app, and the `segmentProvider` will load the settings it provides.
+
+Your `segmentConfig` constant should overwrite the values found in [segmentDefaultConfig](https://github.com/aleross/angular-segment-analytics/blob/master/src/config.js). Any properties not overridden will default to the values found in that file.
+
+Read more about [AngularJS constants](https://docs.angularjs.org/api/auto/service/$provide#constant).
+
+**Example:**
 
 ```js
 angular.module('myApp').constant('segmentConfig', {
+
+  // These values will be automatically
+  // loaded by the segment service
   apiKey: 'xx',
-  autoload: false
+  autoload: false,
   condition: function ($rootScope) {
       return $rootScope.isProduction;
   }
