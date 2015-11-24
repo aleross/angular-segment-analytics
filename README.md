@@ -1,5 +1,5 @@
 # ngSegment: [Segment](https://segment.com) analytics for [AngularJS](https://angular.io/)
-Highly configurable module for easily adding Segment analytics to any Angular app.
+A highly configurable module for easily adding Segment analytics to any Angular app.
 
 
 ## Installation
@@ -17,7 +17,24 @@ Add `'ngSegment'` to your main module's list of dependencies: `angular.module('m
 
 ## Usage
 
-The order they're applied in:
+All you need to start using Segment is to set your API key using any of the configuration methods provided (**provider**, **constant**, or **service**).
+
+```js
+// analytics.js will be asynchronously autoloaded
+segmentProvider.setKey('abc');
+```
+
+All Segment methods (see [Analytics.js](https://segment.com/docs/libraries/analytics.js/)) are available. You can begin using the `segment` service immediately, even before configuration or before the analytics.js script has been loaded. Method calls will be queued and replayed once the service has been configured and the script has been loaded.
+
+```js
+$scope.myAction = function () {
+    segment.track('action', { prop: 'value' });
+});
+```
+
+Continue reading about the configuration options, or jump to the API documentation.
+
+
 
 ### Provider
 
@@ -26,8 +43,7 @@ Read the AngularJS documentation to learn more about [module configuration block
 ```js
 angular.module('myApp').config(function (segmentProvider) {
     segmentProvider
-        .setKey('xx')
-        .setAutoload(false)
+        .setKey('abc')
         .setCondition(function ($rootScope) {
             return $rootScope.isProduction;
         });
@@ -40,13 +56,13 @@ angular.module('myApp').config(function (segmentProvider) {
     segmentProvider.identify('user-id', {});
 });
 ```
-Read below to learn about calling analytics.js methods.
+Read more about calling analytics.js methods below.
 
 ### Constant
 
 You can set any of the configuration options available by providing your own `segmentConfig` constant. You only need to register your constant with your own app, and the `segmentProvider` will load the settings it provides.
 
-Your `segmentConfig` constant should overwrite the values found in [segmentDefaultConfig](https://github.com/aleross/angular-segment-analytics/blob/master/src/config.js). Any properties not overridden will default to the values found in that file.
+Your `segmentConfig` constant should overwrite the properties found in [segmentDefaultConfig](https://github.com/aleross/angular-segment-analytics/blob/master/src/config.js). Any properties not overridden will default to the values found in that file.
 
 Read more about [AngularJS constants](https://docs.angularjs.org/api/auto/service/$provide#constant).
 
@@ -57,8 +73,7 @@ angular.module('myApp').constant('segmentConfig', {
 
   // These values will be automatically
   // loaded by the segment service
-  apiKey: 'xx',
-  autoload: false,
+  apiKey: 'abc',
   condition: function ($rootScope) {
       return $rootScope.isProduction;
   }
@@ -69,7 +84,7 @@ angular.module('myApp').constant('segmentConfig', {
 ```js
 angular.module('myApp').controller(function (segment) {
 
-    segment.setKey('xx');
+    segment.setKey('abc');
     segment.setCondition(function ($rootScope) {
         return $rootScope.isProduction;
     });
