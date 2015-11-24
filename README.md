@@ -24,7 +24,7 @@ Simply set your API key using any of the configuration methods provided (**provi
 segmentProvider.setKey('abc');
 ```
 
-All Segment methods (see [Analytics.js](https://segment.com/docs/libraries/analytics.js/)) are available. You can begin using the `segment` service immediately, even before setting your API key or before the analytics.js script has been asynchronously loaded. Method calls will be queued and replayed once Analytics.js is available.
+Most Segment methods (see [Analytics.js](https://segment.com/docs/libraries/analytics.js/)) are available. You can begin using the `segment` service immediately, even before setting your API key or before the analytics.js script has been asynchronously loaded. Method calls will be queued and replayed once Analytics.js is available.
 
 ```js
 // Event tracking
@@ -73,8 +73,6 @@ Your `segmentConfig` constant should overwrite the properties found in [segmentD
 
 Read more about [AngularJS constants](https://docs.angularjs.org/api/auto/service/$provide#constant).
 
-**Example:**
-
 ```js
 angular.module('myApp').constant('segmentConfig', {
 
@@ -88,6 +86,10 @@ angular.module('myApp').constant('segmentConfig', {
 ```
 
 ### Service
+
+Usually, you should configure 3rd party libraries before the `run()` phase of your AngularJS application, so it's recommended that you use the provider or constant mechanism for configuring `ngSegment`. 
+
+However, if your API key or other configuration parameters are only available in the run phase of your application then you can configure using the `segment` service:
 ```js
 angular.module('myApp').controller(function (segment) {
 
@@ -96,12 +98,13 @@ angular.module('myApp').controller(function (segment) {
         return $rootScope.isProduction;
     });
 });
-
 ```
 
 ## Configuration API
 
-The configuration API is available on the `segmentProvider` and `segment` service. All configuration methods are chainable:
+The configuration API is available on the `segmentProvider` and `segment` service. For configuring via a constant, see [defaultSegmentConfig](https://github.com/aleross/angular-segment-analytics/blob/master/src/config.js) for the property names to override. 
+
+All configuration methods are chainable:
 ```js
 segmentProvider
     .setKey('xx')
