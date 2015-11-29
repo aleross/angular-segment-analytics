@@ -105,7 +105,7 @@ Typically you should configure 3rd party libraries before the `run()` phase of y
 
 ## API Documentation
 
-The configuration API is available on the `segmentProvider` and `segment` service. For configuring via a constant, see [defaultSegmentConfig](https://github.com/aleross/angular-segment-analytics/blob/master/src/config.js) for the property names to override. 
+The configuration API is available on the `segmentProvider` and `segment` service. For configuring via a constant, see [`defaultSegmentConfig`](https://github.com/aleross/angular-segment-analytics/blob/master/src/config.js) for the property names to override. 
 
 All configuration methods are chainable:
 ```js
@@ -231,7 +231,7 @@ angular.module('myApp').config(function (segmentProvider) {
 
 ## Examples
 
-The `segment` service and `segmentProvider` implement most methods from [Analytics.js](https://segment.com/docs/libraries/analytics.js/). Check [segmentDefaultConfig.methods](https://github.com/aleross/angular-segment-analytics/blob/master/src/config.js) for a complete list.
+The `segment` service and `segmentProvider` implement most methods from [Analytics.js](https://segment.com/docs/libraries/analytics.js/). Check [`segmentDefaultConfig.methods`](https://github.com/aleross/angular-segment-analytics/blob/master/src/config.js) for a complete list.
 
 ### Page tracking
 ```js
