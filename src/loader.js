@@ -6,7 +6,9 @@
 
         this.load = function (apiKey, delayMs) {
 
-            if (hasLoaded) {
+            // Warn if analytics.js has already been loaded, because it most likely
+            // means the user has made an error
+            if (hasLoaded || window.analytics.initialized) {
                 console.warn('Attempting to load Segment twice.');
             } else {
 

@@ -2,6 +2,8 @@
 
     var analytics = window.analytics = window.analytics || [];
 
+    console.log('analytics:', analytics.initialized);
+
     // Invoked flag, to make sure the snippet
     // is never invoked twice.
     if (analytics.invoked) {
@@ -23,7 +25,7 @@
         };
     };
 
-
+    // Segment service
     function Segment(config) {
 
         this.config = config;
@@ -108,7 +110,7 @@
         }
     };
 
-
+    // Segment provider available during .config() Angular app phase. Inherits from Segment.
     function SegmentProvider(segmentDefaultConfig) {
 
         Segment.call(this, segmentDefaultConfig);
@@ -144,11 +146,17 @@
 
             // Autoload Segment on service instantiation if an API key has been set via the provider
             if (this.config.autoload) {
+
+                // Statement if analytics.js has been included via other means, but autoload not disabled
+                if (analytics.initialize) {
+                    this.debug('Found analytics.js already present on the page before auto-loading.');
+                }
+
                 if (this.config.apiKey) {
-                    this.debug('Not autoloading Analytics.js, no API key has been set.');
-                } else {
                     this.debug('Autoloading Analytics.js');
                     segmentLoader.load(this.config.apiKey, this.config.loadDelay);
+                } else {
+                    this.debug('Not autoloading Analytics.js, no API key has been set.');
                 }
             }
 
