@@ -113,6 +113,10 @@ segmentProvider
 
 ### setKey(string)
 
+Sets the API key (or **Write Key**) from your Segment project, found in the setup guide or settings for your project. Your API key is required before Analytics.js can be loaded.
+
+Note: If you don't set the API key during the `.config()` phase of your app (using either the **provider** or **constant** forms of configuration), then ngSegment will not be able to autoload Analytics.js and you'll need to load it manually using `segmentLoader.load(apiKey);`.
+
 ### setCondition(injectable callback)
 **Default:** none
 ```js
@@ -210,6 +214,8 @@ Convenience method for setting multiple config properties at once using an objec
 
 ```js
 angular.module('myApp').config(function (segmentProvider) {
+
+    // Set multiple config properties at once
     segmentProvider.setConfig({
         debug: true,
         apiKey: 'abc',
