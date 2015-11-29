@@ -15,7 +15,7 @@
             // Provider configuration
             angular.module('example', ['ngSegment']).config(function (segmentProvider) {
 
-                segmentProvider.setDebug(true).setKey('gPsIwsLFg5XqTnpcbF1D3ZPkw41bNY6b').setAutoload(false);
+                segmentProvider.setDebug(true).setKey('gPsIwsLFg5XqTnpcbF1D3ZPkw41bNY6b');
 
                 segmentProvider.setCondition(function ($http) {
                     return typeof $http === 'function';
@@ -27,11 +27,11 @@
 
                 segment.track('controller test');
 
-                segmentLoader.load(segment.config.apiKey);
+            //    segmentLoader.load(segment.config.apiKey);
             });
 
             angular.module('example').constant('segmentConfig', {
-                debug: false
+                debug: true
             });
 
             // Events constant example. This is optional.

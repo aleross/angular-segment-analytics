@@ -22,9 +22,6 @@ angular.module('ngSegment').constant('segmentDefaultConfig', {
     // Debug: turns debug statements on/off. Useful during development.
     debug: true,
 
-    // Version: analytics.js version.
-    version: '3.1.0',
-
     // Methods: the analytics.js methods that the service creates queueing stubs for.
     methods: [
         'trackSubmit',

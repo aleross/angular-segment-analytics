@@ -24,9 +24,6 @@ angular.module('ngSegment').constant('segmentDefaultConfig', {
     // Debug: turns debug statements on/off. Useful during development.
     debug: true,
 
-    // Version: analytics.js version.
-    version: '3.1.0',
-
     // Methods: the analytics.js methods that the service creates queueing stubs for.
     methods: [
         'trackSubmit',
@@ -139,47 +136,31 @@ angular.module('ngSegment').constant('segmentDefaultConfig', {
 
         this.config = config;
 
-        // Set global analytics.js version
-        analytics.SNIPPET_VERSION = this.config.version;
+        // Checks condition before calling Segment method
+        this.factory = function (method) {
+            return (function () {
 
-        this.setKey = function (apiKey) {
-            this.config.apiKey = apiKey;
-            // Todo autoload if this is the service and autoload is true
-            return this;
-        };
+                // If a condition has been set, only call the Segment method if it returns true
+                if (this.config.condition && !this.config.condition(method, arguments)) {
+                    this.debug('Not calling method, condition returned false.', {
+                        method: method,
+                        arguments: arguments
+                    });
+                    return;
+                }
 
-        this.setLoadDelay = function (milliseconds) {
-            this.config.loadDelay = milliseconds;
-            return this;
+                //  No condition set, call the Segment method
+                this.debug('Calling method ' + method + ' with arguments:', arguments);
+                return analytics[method].apply(analytics, arguments);
+            }).bind(this);
         };
+    }
 
-        this.setCondition = function (trackCondition) {
-            this.config.condition = trackCondition;
-            return this;
-        };
-
-        this.setEvents = function (events) {
-            this.events = events;
-            return this;
-        };
-
-        this.setConfig = function (config) {
-            angular.extend(this.config, config);
-            return this;
-        };
-
-        this.setDebug = function (bool) {
-            this.config.debug = bool;
-            return this;
-        };
-
-        this.setAutoload = function (bool) {
-            this.config.autoload = bool;
-            return this;
-        };
+    // Methods available on both segment service and segmentProvider
+    Segment.prototype = {
 
         // Creates analytics.js method stubs
-        this.init = function () {
+        init: function () {
             for (var i = 0; i < this.config.methods.length; i++) {
                 var key = this.config.methods[i];
 
@@ -190,37 +171,54 @@ angular.module('ngSegment').constant('segmentDefaultConfig', {
 
                 this[key] = this.factory(key);
             }
-        };
+        },
 
-        // Checks condition before calling Segment method
-        this.factory = function (method) {
-            return (function () {
+        debug: function () {
+            if (this.config.debug) {
+                arguments[0] = this.config.tag + arguments[0];
+                console.log.apply(console, arguments);
+            }
+        },
 
-                // If a condition has been set, only call the Segment method if it returns true
-                if (this.config.condition && !this.config.condition(method, arguments)) {
-                    if (this.config.debug) {
-                        console.log(this.config.tag + 'Not calling method, condition returned false.', {
-                            method: method,
-                            arguments: arguments
-                        })
-                    }
-                    return;
-                }
+        setKey: function (apiKey) {
+            this.config.apiKey = apiKey;
+            return this;
+        },
 
-                //  No condition set, call the Segment method
-                if (this.config.debug) {
-                    console.log(this.config.tag + 'Calling method ' + method + ' with arguments:', arguments);
-                }
+        setLoadDelay: function (milliseconds) {
+            this.config.loadDelay = milliseconds;
+            return this;
+        },
 
-                return analytics[method].apply(analytics, arguments);
-            }).bind(this);
-        };
-    }
+        setCondition: function (callback) {
+            this.config.condition = callback;
+            return this;
+        },
+
+        setEvents: function (events) {
+            this.events = events;
+            return this;
+        },
+
+        setDebug: function (bool) {
+            this.config.debug = bool;
+            return this;
+        },
+
+        setConfig: function (config) {
+            angular.extend(this.config, config);
+            return this;
+        },
+
+        setAutoload: function (bool) {
+            this.config.autoload = bool;
+            return this;
+        }
+    };
 
 
     function SegmentProvider(segmentDefaultConfig) {
 
-        // Inherit service methods
         Segment.call(this, segmentDefaultConfig);
 
         // Stores any analytics.js method calls
@@ -249,11 +247,17 @@ angular.module('ngSegment').constant('segmentDefaultConfig', {
             // Apply user-provided config constant if it exists
             if ($injector.has('segmentConfig')) {
                 angular.extend(this.config, $injector.get('segmentConfig'));
+                this.debug('Found segment config constant');
             }
 
             // Autoload Segment on service instantiation if an API key has been set via the provider
-            if (this.config.autoload && this.config.apiKey) {
-                segmentLoader.load(this.config.apiKey, this.config.loadDelay);
+            if (this.config.autoload) {
+                if (this.config.apiKey) {
+                    this.debug('Not autoloading Analytics.js, no API key has been set.');
+                } else {
+                    this.debug('Autoloading Analytics.js');
+                    segmentLoader.load(this.config.apiKey, this.config.loadDelay);
+                }
             }
 
             // Create dependency-injected condition
@@ -279,6 +283,8 @@ angular.module('ngSegment').constant('segmentDefaultConfig', {
             return segment;
         };
     }
+
+    SegmentProvider.prototype = Object.create(Segment.prototype);
 
     // Register with Angular
     module.provider('segment', ['segmentDefaultConfig', SegmentProvider]);
