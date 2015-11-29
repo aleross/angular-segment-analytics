@@ -2,14 +2,14 @@
 A highly configurable module for easily adding Segment analytics to any Angular app.
 
 ## Table of Contents
-- Get Started
-- Usage
-- Configuration
-    - Provider
-    - Constant
-    - Service
-- API Documentation
-- Examples
+- [Get Started](#get-started)
+- [Usage](#usage)
+- [Configuration](#configuration)
+    - [Provider](#provider)
+    - [Constant](#constant)
+    - [Service](#service)
+- [API Documentation](#api-documentation)
+- [Examples](#examples)
 
 ## Get Started
 
@@ -49,7 +49,7 @@ $rootScope.$on('$routeChangeSuccess', function () {
 Continue reading about the configuration options, or jump to the API documentation.
 
 
-## Configuration Options
+## Configuration
 
 ### Provider
 
@@ -109,7 +109,7 @@ angular.module('myApp').controller(function (segment, segmentLoader) {
 
 Typically you should configure 3rd party libraries before the `run()` phase of your AngularJS application, so it's recommended that you use the **provider** or **constant** mechanism for configuring `ngSegment` instead of the service.
 
-## Configuration API
+## API Documentation
 
 The configuration API is available on the `segmentProvider` and `segment` service. For configuring via a constant, see [defaultSegmentConfig](https://github.com/aleross/angular-segment-analytics/blob/master/src/config.js) for the property names to override. 
 
@@ -235,7 +235,7 @@ angular.module('myApp').config(function (segmentProvider) {
 ```
 
 
-## API Documentation & Examples
+## Examples
 
 The `segment` service and `segmentProvider` implement most methods from [Analytics.js](https://segment.com/docs/libraries/analytics.js/). Check [segmentDefaultConfig.methods](https://github.com/aleross/angular-segment-analytics/blob/master/src/config.js) for a complete list.
 
