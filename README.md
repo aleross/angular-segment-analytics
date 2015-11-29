@@ -135,7 +135,7 @@ segmentProvider.setCondition(function ($rootScope, method, arguments) {
 ### setAutoload(boolean)
 **Default:** `true`
 
-Set autoload to false if you're including analytics.js in your build script.
+ngSegment autoloads Segment's Analytics.js before the AngularJS `.run()` phase if an API key has been set. Set autoload to false if you're including analytics.js in your build script.
 
 If you need to load the Segment analytics.js script on-demand, you can use the `segmentLoader` or `segmentLoaderProvider`:
 
@@ -157,20 +157,69 @@ angular.module('myApp').config(function (segmentLoaderProvider) {
 });
 ```
 
-### setDelay(integer)
+### setLoadDelay(integer)
 **Default:** `0ms` (no delay)
+
+Used in combination with `setAutoload`, this controls the amount of time in milliseconds ngSegment will wait before autoloading Segment's Analytics.js.
+
+**Why:** If your app loads many resources on page load or asynchronously, and your app doesn't require Segment in the first few seconds of application use, then it could be beneficial to defer loading Segment until other required resources have loaded (scripts, css, fonts, images, etc). Depending on the integrations you've enabled, Segment itself will load a series of additional scripts (e.g. Google Analytics, Intercom). Most browsers limit max connections (across multiple host names) to 17 connections at a time. If you don't hit this limit by the time Analytics.js is autoloaded, then you won't see any benefit from delaying. Note: any events tracked using ngSegment before Analytics.js has loaded will be queued and replayed once Analytics.js has been loaded. If the user leaves or reloads the page before this, then the events will be lost.
+
+If you're using the `segmentLoader` to manually load Analytics.js and still want to introduce a load delay, then instead of `setLoadDelay` you can pass in a delay in milliseconds as the second parameter to `.load()`:
+
+```js
+angular.module('myApp').controller('MyController', function (segmentLoader) {
+
+    // Delay loading Analytics.js for 3 seconds
+    segmentLoader.load(segment.config.apiKey, 3000);
+});
+```
 
 ### setEvents(object)
 **Default:** none
 
+Stores an object on the segment service for easy reference later using `segment.events`.
+
+**Why:** if your app tracks many unique events, it will quickly become unwieldy to keep track of event names if they're hard-coded in your code each time you call `segment.track('Event Name', eventData)`. For better organization, you may want to create an Angular constant to store all events your app uses by name. You can store this constant on the segment service so you don't need to inject your event names constant into every controller/service/etc that uses `segment`.
+
+```js
+angular.module('myApp').constant('SegmentEvents', {
+    SIGNED_UP: 'Signed Up'
+});
+
+angular.module('myApp').config(function (segmentProvider, SegmentEvents) {
+
+    // EventsConstant is a key-value object of events you track
+    segmentProvider.setEvents(SegmentEvents);
+});
+
+angular.module('myApp').controller('MyController', function (segment) {
+
+    // Easy constant reference later
+    segment.track(segment.events.SIGNED_UP, { plan: 'Startup' });
+});
+```
+
 ### setDebug(boolean)
 **Default:** `false`
 
+Enables debug log statements that are helpful for troubleshooting or when first setting up Segment and ngSegment.
+
 ### setConfig(object)
 
+Convenience method for setting multiple config properties at once using an object that matches the property names of `defaultSegmentConfig`.
+
+```js
+angular.module('myApp').config(function (segmentProvider) {
+    segmentProvider.setConfig({
+        debug: true,
+        apiKey: 'abc',
+        autoload: false
+    });
+});
+```
 
 
-## API Documentation
+## API Documentation & Examples
 
 The `segment` service and `segmentProvider` implement most methods from [Analytics.js](https://segment.com/docs/libraries/analytics.js/). Check [segmentDefaultConfig.methods](https://github.com/aleross/angular-segment-analytics/blob/master/src/config.js) for a complete list.
 
