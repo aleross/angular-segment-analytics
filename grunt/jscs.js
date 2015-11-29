@@ -1,6 +1,10 @@
 module.exports = {
-    src: 'src/**/*.js',
+    src: [
+        'src/**/*.js',
+        'grunt/**/*.js',
+        'test/**/*.js',
+    ],
     options: {
-        config: '.jscsrc'
-    }
+        config: '.jscsrc',
+    },
 };

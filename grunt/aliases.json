@@ -3,5 +3,8 @@
         "jscs",
         "concat",
         "uglify"
+    ],
+    "test": [
+
     ]
 }
