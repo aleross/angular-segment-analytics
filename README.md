@@ -45,7 +45,7 @@ Continue reading about the configuration options, or jump to the API documentati
 
 ### Provider
 
-Read the AngularJS documentation to learn more about [module configuration blocks](https://docs.angularjs.org/guide/module#module-loading-dependencies).
+The `segmentProvider` is available during your application's `.config()` phase, before services have been instantiated. Read the AngularJS documentation to learn more about [module configuration blocks](https://docs.angularjs.org/guide/module#module-loading-dependencies).
 
 ```js
 angular.module('myApp').config(function (segmentProvider) {
@@ -53,21 +53,21 @@ angular.module('myApp').config(function (segmentProvider) {
         .setKey('abc')
         .setCondition(function ($rootScope) {
             return $rootScope.isProduction;
-        });
+        })
+        .setDebug(true)
 });
 ```
 
-All of the [analytics.js](https://segment.com/docs/libraries/analytics.js/) methods are available on both the `segmentProvider` and `segment` service. You might want to call [.identify()](https://segment.com/docs/libraries/analytics.js/#identify) during your app's config block if you have your user's information available at that time:
+All of the [analytics.js](https://segment.com/docs/libraries/analytics.js/) methods are also available on both the `segmentProvider` and `segment` service. You might want to call [.identify()](https://segment.com/docs/libraries/analytics.js/#identify) during your app's config block if you have your user's information available at that time:
 ```js
 angular.module('myApp').config(function (segmentProvider) {
     segmentProvider.identify('user-id', {});
 });
 ```
-Read more about calling analytics.js in the API Documentation.
 
 ### Constant
 
-You can set any of the configuration options available by providing your own `segmentConfig` constant. You only need to register your constant with your own app, and the `segmentProvider` will load the settings it provides.
+You can set any of the configuration options available by providing your own `segmentConfig` constant. You only need to register your constant with your own app using `angular.module('myApp').constant('myConstant', {});`, and the `segmentProvider` will find it.
 
 Your `segmentConfig` constant should overwrite the properties found in [segmentDefaultConfig](https://github.com/aleross/angular-segment-analytics/blob/master/src/config.js). Any properties not overridden will default to the values found in that file.
 
@@ -86,18 +86,20 @@ angular.module('myApp').constant('segmentConfig', {
 
 ### Service
 
-Usually, you should configure 3rd party libraries before the `run()` phase of your AngularJS application, so it's recommended that you use the provider or constant mechanism for configuring `ngSegment`. 
-
-However, if your API key or other configuration parameters are only available in the run phase of your application then you can configure using the `segment` service:
+If your API key or other configuration parameters are only available in the run phase of your application then you can load Analytics.js using `segmentLoader.load(apiKey)`, and configure using the `segment` service:
 ```js
-angular.module('myApp').controller(function (segment) {
-
-    segment.setKey('abc');
+angular.module('myApp').controller(function (segment, segmentLoader) {
     segment.setCondition(function ($rootScope) {
         return $rootScope.isProduction;
     });
+    
+    // If you don't set the API key using the provider or constant
+    // then you need to manually load Analytics.js
+    segmentLoader.load('abc');
 });
 ```
+
+Typically you should configure 3rd party libraries before the `run()` phase of your AngularJS application, so it's recommended that you use the **provider** or **constant** mechanism for configuring `ngSegment` instead of the service.
 
 ## Configuration API
 
