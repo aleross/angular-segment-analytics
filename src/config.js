@@ -38,9 +38,9 @@ angular.module('ngSegment').constant('segmentDefaultConfig', {
         'page',
         'once',
         'off',
-        'on'
+        'on',
     ],
 
     // Tag: the tag used in debug log statements
-    tag: '[ngSegment] '
+    tag: '[ngSegment] ',
 });

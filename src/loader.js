@@ -24,7 +24,7 @@
                         var script = document.createElement('script');
                         script.type = 'text/javascript';
                         script.async = true;
-                        script.src = ('https:' === document.location.protocol
+                        script.src = (document.location.protocol === 'https:'
                                 ? 'https://' : 'http://')
                             + 'cdn.segment.com/analytics.js/v1/'
                             + apiKey + '/analytics.min.js';
@@ -51,7 +51,7 @@
 
         this.$get = function () {
             return new SegmentLoader();
-        }
+        };
     }
 
     // Register with Angular

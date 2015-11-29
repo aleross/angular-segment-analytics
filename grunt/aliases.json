@@ -1,5 +1,7 @@
 {
     "build": [
-        "concat"
+        "jscs",
+        "concat",
+        "uglify"
     ]
 }

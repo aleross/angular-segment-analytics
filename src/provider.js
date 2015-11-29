@@ -14,7 +14,7 @@
     // for methods in Analytics.js so that you never have to wait
     // for it to load to actually record data. The `method` is
     // stored as the first argument, so we can replay the data.
-    analytics.factory = function(method) {
+    analytics.factory = function (method) {
         return function () {
             var args = Array.prototype.slice.call(arguments);
             args.unshift(method);
@@ -36,7 +36,7 @@
                 if (this.config.condition && !this.config.condition(method, arguments)) {
                     this.debug('Not calling method, condition returned false.', {
                         method: method,
-                        arguments: arguments
+                        arguments: arguments,
                     });
                     return;
                 }
@@ -105,7 +105,7 @@
         setAutoload: function (bool) {
             this.config.autoload = bool;
             return this;
-        }
+        },
     };
 
     // Segment provider available during .config() Angular app phase. Inherits from Segment.

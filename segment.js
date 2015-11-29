@@ -40,11 +40,11 @@ angular.module('ngSegment').constant('segmentDefaultConfig', {
         'page',
         'once',
         'off',
-        'on'
+        'on',
     ],
 
     // Tag: the tag used in debug log statements
-    tag: '[ngSegment] '
+    tag: '[ngSegment] ',
 });
 
 (function (module) {
@@ -73,7 +73,7 @@ angular.module('ngSegment').constant('segmentDefaultConfig', {
                         var script = document.createElement('script');
                         script.type = 'text/javascript';
                         script.async = true;
-                        script.src = ('https:' === document.location.protocol
+                        script.src = (document.location.protocol === 'https:'
                                 ? 'https://' : 'http://')
                             + 'cdn.segment.com/analytics.js/v1/'
                             + apiKey + '/analytics.min.js';
@@ -100,7 +100,7 @@ angular.module('ngSegment').constant('segmentDefaultConfig', {
 
         this.$get = function () {
             return new SegmentLoader();
-        }
+        };
     }
 
     // Register with Angular
@@ -124,7 +124,7 @@ angular.module('ngSegment').constant('segmentDefaultConfig', {
     // for methods in Analytics.js so that you never have to wait
     // for it to load to actually record data. The `method` is
     // stored as the first argument, so we can replay the data.
-    analytics.factory = function(method) {
+    analytics.factory = function (method) {
         return function () {
             var args = Array.prototype.slice.call(arguments);
             args.unshift(method);
@@ -146,7 +146,7 @@ angular.module('ngSegment').constant('segmentDefaultConfig', {
                 if (this.config.condition && !this.config.condition(method, arguments)) {
                     this.debug('Not calling method, condition returned false.', {
                         method: method,
-                        arguments: arguments
+                        arguments: arguments,
                     });
                     return;
                 }
@@ -215,7 +215,7 @@ angular.module('ngSegment').constant('segmentDefaultConfig', {
         setAutoload: function (bool) {
             this.config.autoload = bool;
             return this;
-        }
+        },
     };
 
     // Segment provider available during .config() Angular app phase. Inherits from Segment.
