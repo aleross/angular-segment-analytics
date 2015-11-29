@@ -73,8 +73,6 @@ You can also set any of the configuration options available by providing your ow
 
 Your `segmentConfig` constant should overwrite the properties found in [segmentDefaultConfig](https://github.com/aleross/angular-segment-analytics/blob/master/src/config.js). Any properties not overridden will default to the values found in that file.
 
-Read more about [AngularJS constants](https://docs.angularjs.org/api/auto/service/$provide#constant).
-
 ```js
 angular.module('myApp').constant('segmentConfig', {
 
@@ -85,6 +83,8 @@ angular.module('myApp').constant('segmentConfig', {
   }
 });
 ```
+
+Read more about [AngularJS constants](https://docs.angularjs.org/api/auto/service/$provide#constant).
 
 ### Service
 
