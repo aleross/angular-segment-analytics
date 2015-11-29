@@ -1,5 +1,17 @@
 {
   "name": "angular-segment-analytics",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aleross/angular-segment-analytics"
+  },
+  "keywords": ["angular", "segment", "angular analytics", "segmentio"],
+  "author": "aleross",
+  "license": "MIT",
+  "homepage": "https://github.com/aleross/angular-segment-analytics",
+  "dependencies": {
+    "angular": "latest"
+  },
   "devDependencies": {
     "grunt": "^0.4.5",
     "load-grunt-config": "^0.17.2",
