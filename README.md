@@ -25,28 +25,20 @@ A highly configurable module for adding Segment analytics to any Angular app.
 
 ## Usage
 
-Set your API key using any of the configuration methods provided ([**provider**](#provider), [**constant**](#constant), or [**service**](#service)), and you're ready to start using Segment. See the [API Documentation](#api-documentation) for advanced configuration.
+Set your API key using any of the configuration methods provided ([**provider**](#provider), [**constant**](#constant), or [**service**](#service)), and you're ready to start using Segment in your app.
 
 ```js
-// analytics.js will be asynchronously autoloaded
+// analytics.js will be asynchronously auto-loaded
 segmentProvider.setKey('abc');
 ```
 
-Most Segment methods (see [Analytics.js](https://segment.com/docs/libraries/analytics.js/)) are available. You can begin using the `segment` service immediately, even before setting your API key or before the analytics.js script has been asynchronously loaded. Method calls will be queued and replayed once Analytics.js is available.
+Most Segment methods (see [Analytics.js](https://segment.com/docs/libraries/analytics.js/)) are available on the `segment` service created by ngSegment.
 
 ```js
-// Event tracking
-$scope.myAction = function () {
-    segment.track('action', { prop: 'value' });
-});
-
-// Pageview tracking
-$rootScope.$on('$routeChangeSuccess', function () {
-  segment.pageview($location.path());
-});
+segment.track('action', { prop: 'value' });
 ```
 
-Continue reading about the configuration options, or jump to the [API Documentation](#api-documentation).
+Continue reading about the configuration options, or jump to the [Examples](#examples).
 
 
 ## Configuration
