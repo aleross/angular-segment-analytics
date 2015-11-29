@@ -4,20 +4,19 @@ A highly configurable module for easily adding Segment analytics to any Angular 
 
 ## Installation
 
+1. Download the ngSegment source from Bower, npm, or Github.
+2. Include `segment.min.js` in your `index.html`, after including Angular.
+3. Add `'ngSegment'` to your main module's list of dependencies: `angular.module('myApp', ['ngSegment']);`.
+
 **Bower:**
 `bower install angular-segment-analytics --save`
 
 **npm:**
 `npm install angular-segment-analytics`
 
-Include `segment.min.js` in your `index.html`, after including Angular.
-
-Add `'ngSegment'` to your main module's list of dependencies: `angular.module('myApp', ['ngSegment']);`
-
-
 ## Usage
 
-Simply set your API key using any of the configuration methods provided (**provider**, **constant**, or **service**), and you're ready to start using Segment. See the Configuration API for advanced configuration.
+Set your API key using any of the configuration methods provided (**provider**, **constant**, or **service**), and you're ready to start using Segment. See the Configuration API for advanced configuration.
 
 ```js
 // analytics.js will be asynchronously autoloaded
