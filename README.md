@@ -45,7 +45,7 @@ Continue reading about the configuration options, or jump to the [Examples](#exa
 
 ngSegment can be configured in any of 3 ways: using a provider, constant or service. These 3 options are available so you can pick the mechanism that fits your application best. The provider or constant are recommended because typically it's best to configure 3rd party libraries in the config phase of your application. 
 
-It is not recommended to mix configuration mechanisms, but if you do they're applied in the order listed in this documentation (provider, constant then service).
+It is not recommended to mix configuration mechanisms, but if you do they're applied in the order listed in this documentation (provider, constant then service) and conflicting settings will be overridden.
 
 ### Provider
 
@@ -64,9 +64,7 @@ angular.module('myApp').config(function (segmentProvider) {
 
 All of the [analytics.js](https://segment.com/docs/libraries/analytics.js/) methods are also available on both the `segmentProvider` and `segment` service. You might want to call [.identify()](https://segment.com/docs/libraries/analytics.js/#identify) during your app's config block if you have your user's information available at that time:
 ```js
-angular.module('myApp').config(function (segmentProvider) {
-    segmentProvider.identify('user-id', {});
-});
+segmentProvider.identify('user-id', {});
 ```
 
 ### Constant
@@ -216,7 +214,7 @@ Enables debug log statements that are helpful for troubleshooting or when first 
 
 ### setConfig(object)
 
-Convenience method for setting multiple config properties at once using an object that matches the property names of `defaultSegmentConfig`.
+Convenience method for setting multiple config properties at once using an object that matches the property names of [`defaultSegmentConfig`](https://github.com/aleross/angular-segment-analytics/blob/master/src/config.js).
 
 ```js
 angular.module('myApp').config(function (segmentProvider) {
