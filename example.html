@@ -15,7 +15,7 @@
             // Provider configuration
             angular.module('example', ['ngSegment']).config(function (segmentProvider) {
 
-                segmentProvider.setKey('gPsIwsLFg5XqTnpcbF1D3ZPkw41bNY6b').setAutoload(false);
+                segmentProvider.setDebug(true).setKey('gPsIwsLFg5XqTnpcbF1D3ZPkw41bNY6b').setAutoload(false);
 
                 segmentProvider.setCondition(function ($http) {
                     return typeof $http === 'function';

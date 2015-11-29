@@ -33,6 +33,7 @@
 
         this.setKey = function (apiKey) {
             this.config.apiKey = apiKey;
+            // Todo autoload if this is the service and autoload is true
             return this;
         };
 
@@ -82,17 +83,26 @@
 
         // Checks condition before calling Segment method
         this.factory = function (method) {
-            var condition = this.config.condition;
-            return function () {
+            return (function () {
 
                 // If a condition has been set, only call the Segment method if it returns true
-                if (condition && !condition(method, arguments)) {
+                if (this.config.condition && !this.config.condition(method, arguments)) {
+                    if (this.config.debug) {
+                        console.log(this.config.tag + 'Not calling method, condition returned false.', {
+                            method: method,
+                            arguments: arguments
+                        })
+                    }
                     return;
                 }
 
                 //  No condition set, call the Segment method
+                if (this.config.debug) {
+                    console.log(this.config.tag + 'Calling method ' + method + ' with arguments:', arguments);
+                }
+
                 return analytics[method].apply(analytics, arguments);
-            }
+            }).bind(this);
         };
     }
 
@@ -122,7 +132,7 @@
         // Create method stubs using overridden factory
         this.init();
 
-        // Returns segment service and optionally injected condition callback
+        // Returns segment service and creates dependency-injected condition callback, if provided
         this.$get = function ($injector, segmentLoader) {
 
             // Apply user-provided config constant if it exists
@@ -149,7 +159,8 @@
             // Set up service method stubs
             segment.init();
 
-            // Play back any segment calls that were made against the provider
+            // Play back any segment calls that were made against the provider now that the
+            // condition callback has been injected with dependencies
             this.queue.forEach(function (item) {
                 segment[item.method].apply(segment, item.arguments);
             });
