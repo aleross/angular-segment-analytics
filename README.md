@@ -1,5 +1,5 @@
 # ngSegment: [Segment](https://segment.com) analytics for [AngularJS](https://angular.io/)
-A highly configurable module for easily adding Segment analytics to any Angular app.
+A highly configurable module for adding Segment analytics to any Angular app.
 
 ## Table of Contents
 - [Get Started](#get-started)
@@ -25,7 +25,7 @@ A highly configurable module for easily adding Segment analytics to any Angular 
 
 ## Usage
 
-Set your API key using any of the configuration methods provided (**provider**, **constant**, or **service**), and you're ready to start using Segment. See the Configuration API for advanced configuration.
+Set your API key using any of the configuration methods provided ([**provider**](#provider), [**constant**](#constant), or [**service**](#service)), and you're ready to start using Segment. See the [API Documentation](#api-documentation) for advanced configuration.
 
 ```js
 // analytics.js will be asynchronously autoloaded
@@ -46,10 +46,14 @@ $rootScope.$on('$routeChangeSuccess', function () {
 });
 ```
 
-Continue reading about the configuration options, or jump to the API documentation.
+Continue reading about the configuration options, or jump to the [API Documentation](#api-documentation).
 
 
 ## Configuration
+
+ngSegment can be configured in any of 3 ways: using a provider, constant or service. These 3 options are available so you can pick the mechanism that fits your application best. The provider or constant are recommended because typically it's best to configure 3rd party libraries in the config phase of your application. 
+
+It is not recommended to mix configuration mechanisms, but if you do they're applied in the order listed in this documentation (provider, constant then service).
 
 ### Provider
 
@@ -75,7 +79,7 @@ angular.module('myApp').config(function (segmentProvider) {
 
 ### Constant
 
-You can set any of the configuration options available by providing your own `segmentConfig` constant. You only need to register your constant with your own app using `angular.module('myApp').constant('myConstant', {});`, and the `segmentProvider` will find it.
+You can also set any of the configuration options available by providing your own `segmentConfig` constant. You only need to register your constant with your own app using `angular.module('myApp').constant('myConstant', {});`, and the `segmentProvider` will find it.
 
 Your `segmentConfig` constant should overwrite the properties found in [segmentDefaultConfig](https://github.com/aleross/angular-segment-analytics/blob/master/src/config.js). Any properties not overridden will default to the values found in that file.
 
