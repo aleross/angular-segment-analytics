@@ -1,8 +1,17 @@
 # ngSegment: [Segment](https://segment.com) analytics for [AngularJS](https://angular.io/)
 A highly configurable module for easily adding Segment analytics to any Angular app.
 
+## Table of Contents
+- Get Started
+- Usage
+- Configuration
+    - Provider
+    - Constant
+    - Service
+- API Documentation
+- Examples
 
-## Installation
+## Get Started
 
 1. Download the ngSegment source from Bower, npm, or Github.
 2. Include `segment.min.js` in your `index.html`, after including Angular.
