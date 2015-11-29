@@ -2,8 +2,6 @@
 
     var analytics = window.analytics = window.analytics || [];
 
-    console.log('analytics:', analytics.initialized);
-
     // Invoked flag, to make sure the snippet
     // is never invoked twice.
     if (analytics.invoked) {
