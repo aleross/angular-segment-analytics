@@ -28,20 +28,6 @@
 
         this.config = config;
 
-        var validations = {
-            apiKey: function () {
-                if (!angular.isString(config.apiKey) || !config.apiKey) {
-                    throw new Error(config.tag + 'API key must be a valid string.');
-                }
-            },
-
-            loadDelay: function () {
-                if (!angular.isNumber(config.loadDelay)) {
-                    throw new Error(config.tag + 'Load delay must be a number.');
-                }
-            },
-        };
-
         // Checks condition before calling Segment method
         this.factory = function (method) {
             return (function () {
@@ -59,16 +45,6 @@
                 this.debug('Calling method ' + method + ' with arguments:', arguments);
                 return analytics[method].apply(analytics, arguments);
             }).bind(this);
-        };
-
-        this.validate = function (property) {
-            if (property) {
-                validations[property]();
-            } else {
-                Object.keys(this.config).forEach(function (key) {
-                    validations[key]();
-                });
-            }
         };
     }
 
@@ -95,57 +71,12 @@
                 console.log.apply(console, arguments);
             }
         },
-
-        setKey: function (apiKey) {
-            this.config.apiKey = apiKey;
-            this.validate('apiKey');
-            return this;
-        },
-
-        setLoadDelay: function (milliseconds) {
-            this.config.loadDelay = milliseconds;
-            this.validate('loadDelay');
-            return this;
-        },
-
-        setCondition: function (callback) {
-            if (!angular.isFunction(callback)) {
-                throw new Error('Condition callback must be a function');
-            }
-
-            this.config.condition = callback;
-            return this;
-        },
-
-        setEvents: function (events) {
-            this.events = events;
-            return this;
-        },
-
-        setDebug: function (bool) {
-            this.config.debug = !!bool;
-            return this;
-        },
-
-        setConfig: function (config) {
-            if (!angular.isObject(config)) {
-                throw new Error('Config must be an object');
-            }
-
-            angular.extend(this.config, config);
-            return this;
-        },
-
-        setAutoload: function (bool) {
-            this.config.autoload = !!bool;
-            return this;
-        },
     };
 
-    // Segment provider available during .config() Angular app phase. Inherits from Segment.
+    // Segment provider available during .config() Angular app phase. Inherits from Segment prototype.
     function SegmentProvider(segmentDefaultConfig) {
 
-        Segment.call(this, angular.copy(segmentDefaultConfig));
+        this.config = angular.copy(segmentDefaultConfig);
 
         // Stores any analytics.js method calls
         this.queue = [];
@@ -167,6 +98,82 @@
         // Create method stubs using overridden factory
         this.init();
 
+        this.setKey = function (apiKey) {
+            this.config.apiKey = apiKey;
+            this.validate('apiKey');
+            return this;
+        };
+
+        this.setLoadDelay = function (milliseconds) {
+            this.config.loadDelay = milliseconds;
+            this.validate('loadDelay');
+            return this;
+        };
+
+        this.setCondition = function (callback) {
+            this.config.condition = callback;
+            this.validate('condition');
+            return this;
+        };
+
+        this.setEvents = function (events) {
+            this.events = events;
+            return this;
+        };
+
+        this.setConfig = function (config) {
+            if (!angular.isObject(config)) {
+                throw new Error(this.config.tag + 'Config must be an object.');
+            }
+
+            angular.extend(this.config, config);
+
+            // Validate new settings
+            Object.keys(config).forEach((function (key) {
+                this.validate(key);
+            }).bind(this));
+
+            return this;
+        };
+
+        this.setAutoload = function (bool) {
+            this.config.autoload = !!bool;
+            return this;
+        };
+
+        this.setDebug = function (bool) {
+            this.config.debug = !!bool;
+            return this;
+        };
+
+        var validations = {
+            apiKey: function (config) {
+                if (!angular.isString(config.apiKey) || !config.apiKey) {
+                    throw new Error(config.tag + 'API key must be a valid string.');
+                }
+            },
+
+            loadDelay: function (config) {
+                if (!angular.isNumber(config.loadDelay)) {
+                    throw new Error(config.tag + 'Load delay must be a number.');
+                }
+            },
+
+            condition: function (config) {
+                if (!angular.isFunction(config.condition)) {
+                    throw new Error(config.tag + 'Condition callback must be a function.');
+                }
+            },
+        };
+
+        // Allows validating a specific property after set[Prop]
+        // or all config after provider/constant config
+        this.validate = function (property) {
+            if (typeof validations[property] === 'function') {
+                validations[property](this.config);
+            }
+        };
+
         // Returns segment service and creates dependency-injected condition callback, if provided
         this.$get = function ($injector, segmentLoader) {
 
@@ -174,26 +181,25 @@
             if ($injector.has('segmentConfig')) {
                 var constant = $injector.get('segmentConfig');
                 if (!angular.isObject(constant)) {
-                    throw new Error('Config constant must be an object');
+                    throw new Error(this.config.tag + 'Config constant must be an object.');
                 }
 
                 angular.extend(this.config, constant);
                 this.debug('Found segment config constant');
+
+                // Validate settings passed in by constant
+                Object.keys(constant).forEach((function (key) {
+                    this.validate(key);
+                }).bind(this));
             }
 
             // Autoload Segment on service instantiation if an API key has been set via the provider
             if (this.config.autoload) {
-
-                // Statement if analytics.js has been included via other means, but autoload not disabled
-                if (analytics.initialize) {
-                    this.debug('Found analytics.js already present on the page before auto-loading.');
-                }
-
+                this.debug('Autoloading Analytics.js');
                 if (this.config.apiKey) {
-                    this.debug('Autoloading Analytics.js');
                     segmentLoader.load(this.config.apiKey, this.config.loadDelay);
                 } else {
-                    this.debug('Not autoloading Analytics.js, no API key has been set.');
+                    this.debug(this.config.tag + ' Warning: API key is not set and autoload is not disabled.');
                 }
             }
 
@@ -206,10 +212,7 @@
             }
 
             // Pass any provider-set configuration down to the service
-            var segment = new Segment(this.config);
-
-            // Validate all settings from provider or constant
-            segment.validate();
+            var segment = new Segment(angular.copy(this.config));
 
             // Set up service method stubs
             segment.init();

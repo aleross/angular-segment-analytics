@@ -1,40 +1,13 @@
 describe('segment', function () {
     'use strict';
 
-    var segment,
-        segmentProvider;
+    var segment;
 
-    beforeEach(module('ngSegment', function (_segmentProvider_) {
-        segmentProvider = _segmentProvider_;
-    }));
+    beforeEach(module('ngSegment'));
 
     beforeEach(inject(function (_segment_) {
         segment = _segment_;
     }));
-
-    /**
-     * Configuration
-     */
-
-    it('should provide the same configuration methods from provider and service', function () {
-
-    });
-
-    it('should be able to chain functions', function () {
-
-    });
-
-    it('should have the correct defaults', function () {
-        inject(function (segmentDefaultConfig) {
-            Object.keys(segmentDefaultConfig).forEach(function (key) {
-                expect(segment.config[key]).toEqual(segmentDefaultConfig[key]);
-            });
-        });
-    });
-
-    it('should be able to load settings from a constant', function () {
-
-    });
 
     it('should be able to debug log', function () {
 
@@ -65,38 +38,6 @@ describe('segment', function () {
     });
 
     it('should reply queued method calls when Analytics.js loads', function () {
-
-    });
-
-    /**
-     * Validation
-     */
-
-    it('should validate the API key', function () {
-        try {
-            segment.setKey();
-        } catch (e) {
-            expect(e.message).toEqual(segment.config.tag + 'API key must be a valid string.');
-        }
-    });
-
-    it('should validate the condition callback', function () {
-
-    });
-
-    it('should validate the load delay', function () {
-        try {
-            segment.setLoadDelay();
-        } catch (e) {
-            expect(e.message).toEqual(segment.config.tag + 'Load delay must be a number.');
-        }
-    });
-
-    it('should validate config constant', function () {
-
-    });
-
-    it('should validate config object', function () {
 
     });
 });
