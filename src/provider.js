@@ -73,16 +73,28 @@
         },
 
         setKey: function (apiKey) {
+            if (!angular.isString(apiKey) || !apiKey) {
+                throw new Error('API key must be a valid string');
+            }
+
             this.config.apiKey = apiKey;
             return this;
         },
 
         setLoadDelay: function (milliseconds) {
+            if (!angular.isNumber(milliseconds)) {
+                throw new Error('Load delay must be a number');
+            }
+
             this.config.loadDelay = milliseconds;
             return this;
         },
 
         setCondition: function (callback) {
+            if (!angular.isFunction(callback)) {
+                throw new Error('Condition callback must be a function');
+            }
+
             this.config.condition = callback;
             return this;
         },
@@ -93,17 +105,21 @@
         },
 
         setDebug: function (bool) {
-            this.config.debug = bool;
+            this.config.debug = !!bool;
             return this;
         },
 
         setConfig: function (config) {
+            if (!angular.isObject(config)) {
+                throw new Error('Config must be an object');
+            }
+
             angular.extend(this.config, config);
             return this;
         },
 
         setAutoload: function (bool) {
-            this.config.autoload = bool;
+            this.config.autoload = !!bool;
             return this;
         },
     };
@@ -111,7 +127,7 @@
     // Segment provider available during .config() Angular app phase. Inherits from Segment.
     function SegmentProvider(segmentDefaultConfig) {
 
-        Segment.call(this, segmentDefaultConfig);
+        Segment.call(this, angular.copy(segmentDefaultConfig));
 
         // Stores any analytics.js method calls
         this.queue = [];
@@ -138,7 +154,12 @@
 
             // Apply user-provided config constant if it exists
             if ($injector.has('segmentConfig')) {
-                angular.extend(this.config, $injector.get('segmentConfig'));
+                var constant = $injector.get('segmentConfig');
+                if (!angular.isObject(constant)) {
+                    throw new Error('Config constant must be an object');
+                }
+
+                angular.extend(this.config, constant);
                 this.debug('Found segment config constant');
             }
 

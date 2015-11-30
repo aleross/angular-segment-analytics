@@ -1,10 +1,14 @@
 {
+    "develop": [
+        "karma:watch:start",
+        "watch"
+    ],
     "build": [
         "jscs",
         "concat",
         "uglify"
     ],
     "test": [
-
+        "karma:unit"
     ]
 }

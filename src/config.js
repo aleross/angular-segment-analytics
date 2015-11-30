@@ -20,7 +20,7 @@ angular.module('ngSegment').constant('segmentDefaultConfig', {
     condition: null,
 
     // Debug: turns debug statements on/off. Useful during development.
-    debug: true,
+    debug: false,
 
     // Methods: the analytics.js methods that the service creates queueing stubs for.
     methods: [

@@ -7,5 +7,6 @@
     "disallowSpacesInAnonymousFunctionExpression": null,
     "requireSpacesInFunctionExpression": {
         "beforeOpeningRoundBrace": true
-    }
+    },
+    "disallowMultipleVarDecl": null
 }

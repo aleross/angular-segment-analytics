@@ -38,7 +38,7 @@
                         first.parentNode.insertBefore(script, first);
                     }, delayMs);
                 } else {
-                    console.warn('Cannot load Segment without an API key.');
+                    throw new Error('Cannot load Analytics.js without an API key');
                 }
             }
         };
