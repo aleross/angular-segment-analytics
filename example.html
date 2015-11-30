@@ -15,7 +15,7 @@
             // Provider configuration
             angular.module('example', ['ngSegment']).config(function (segmentProvider) {
 
-                segmentProvider.setDebug(true).setKey('gPsIwsLFg5XqTnpcbF1D3ZPkw41bNY6b');
+                segmentProvider.setDebug(true);
 
                 segmentProvider.setCondition(function ($http) {
                     return typeof $http === 'function';
@@ -31,7 +31,8 @@
             });
 
             angular.module('example').constant('segmentConfig', {
-                debug: true
+                debug: true,
+                apiKey: 'gPsIwsLFg5XqTnpcbF1D3ZPkw41bNY6b'
             });
 
             // Events constant example. This is optional.

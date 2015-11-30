@@ -26,9 +26,8 @@ describe('segment', function () {
 
     it('should have the correct defaults', function () {
         inject(function (segmentDefaultConfig) {
-            segment.config.debug = true;
             Object.keys(segmentDefaultConfig).forEach(function (key) {
-                expect(segment.config[key]).toBe(segmentDefaultConfig[key]);
+                expect(segment.config[key]).toEqual(segmentDefaultConfig[key]);
             });
         });
     });
@@ -74,7 +73,11 @@ describe('segment', function () {
      */
 
     it('should validate the API key', function () {
-
+        try {
+            segment.setKey();
+        } catch (e) {
+            expect(e.message).toEqual(segment.config.tag + 'API key must be a valid string.');
+        }
     });
 
     it('should validate the condition callback', function () {
@@ -82,7 +85,11 @@ describe('segment', function () {
     });
 
     it('should validate the load delay', function () {
-
+        try {
+            segment.setLoadDelay();
+        } catch (e) {
+            expect(e.message).toEqual(segment.config.tag + 'Load delay must be a number.');
+        }
     });
 
     it('should validate config constant', function () {

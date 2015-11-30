@@ -138,6 +138,20 @@ angular.module('ngSegment').constant('segmentDefaultConfig', {
 
         this.config = config;
 
+        var validations = {
+            apiKey: function () {
+                if (!angular.isString(config.apiKey) || !config.apiKey) {
+                    throw new Error(config.tag + 'API key must be a valid string.');
+                }
+            },
+
+            loadDelay: function () {
+                if (!angular.isNumber(config.loadDelay)) {
+                    throw new Error(config.tag + 'Load delay must be a number.');
+                }
+            },
+        };
+
         // Checks condition before calling Segment method
         this.factory = function (method) {
             return (function () {
@@ -155,6 +169,16 @@ angular.module('ngSegment').constant('segmentDefaultConfig', {
                 this.debug('Calling method ' + method + ' with arguments:', arguments);
                 return analytics[method].apply(analytics, arguments);
             }).bind(this);
+        };
+
+        this.validate = function (property) {
+            if (property) {
+                validations[property]();
+            } else {
+                Object.keys(this.config).forEach(function (key) {
+                    validations[key]();
+                });
+            }
         };
     }
 
@@ -183,20 +207,14 @@ angular.module('ngSegment').constant('segmentDefaultConfig', {
         },
 
         setKey: function (apiKey) {
-            if (!angular.isString(apiKey) || !apiKey) {
-                throw new Error('API key must be a valid string');
-            }
-
             this.config.apiKey = apiKey;
+            this.validate('apiKey');
             return this;
         },
 
         setLoadDelay: function (milliseconds) {
-            if (!angular.isNumber(milliseconds)) {
-                throw new Error('Load delay must be a number');
-            }
-
             this.config.loadDelay = milliseconds;
+            this.validate('loadDelay');
             return this;
         },
 
@@ -299,6 +317,9 @@ angular.module('ngSegment').constant('segmentDefaultConfig', {
 
             // Pass any provider-set configuration down to the service
             var segment = new Segment(this.config);
+
+            // Validate all settings from provider or constant
+            segment.validate();
 
             // Set up service method stubs
             segment.init();
