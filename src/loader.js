@@ -1,26 +1,22 @@
 (function (module) {
 
-    var hasLoaded = false;
+    function SegmentLoader(hasLoaded) {
 
-    function SegmentLoader() {
-
-        this.hasLoaded = function () {
-            return hasLoaded;
-        };
+        this.hasLoaded = hasLoaded || false;
 
         this.load = function (apiKey, delayMs) {
 
-            // Warn if analytics.js has already been loaded, because it most likely
+            // If analytics.js has already been loaded, it most likely
             // means the user has made an error
-            if (hasLoaded || window.analytics.initialized) {
-                console.warn('Attempting to load Segment twice.');
+            if (this.hasLoaded || window.analytics.initialized) {
+                throw new Error('Attempting to load Segment twice.');
             } else {
 
                 // Only load if we've been given or have set an API key
                 if (apiKey) {
 
                     // Prevent double .load() calls
-                    hasLoaded = true;
+                    this.hasLoaded = true;
 
                     window.setTimeout(function () {
 
@@ -42,7 +38,7 @@
                         first.parentNode.insertBefore(script, first);
                     }, delayMs);
                 } else {
-                    throw new Error('Cannot load Analytics.js without an API key');
+                    throw new Error('Cannot load Analytics.js without an API key.');
                 }
             }
         };
@@ -54,7 +50,7 @@
         SegmentLoader.call(this);
 
         this.$get = function () {
-            return new SegmentLoader();
+            return new SegmentLoader(this.hasLoaded);
         };
     }
 
