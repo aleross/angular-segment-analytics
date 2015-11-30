@@ -76,6 +76,7 @@
             if (this.config.debug) {
                 arguments[0] = this.config.tag + arguments[0];
                 console.log.apply(console, arguments);
+                return true;
             }
         },
     };
@@ -95,16 +96,12 @@
 
         // Overwrite Segment factory to queue up calls if condition has been set
         this.factory = function (method) {
-            return (function () {
+            var queue = this.queue;
+            return function () {
 
-                // Defer calling analytics.js methods until the service is instantiated if the user
-                // has set a condition, so that the condition can be injected with dependencies
-                if (typeof this.config.condition === 'function') {
-                    this.queue.push({ method: method, arguments: arguments });
-                } else {
-                    this[method].apply(this, arguments);
-                }
-            }).bind(this);
+                // Defer calling analytics.js methods until the service is instantiated
+                queue.push({ method: method, arguments: arguments });
+            };
         };
 
         // Create method stubs using overridden factory

@@ -4,6 +4,10 @@
 
     function SegmentLoader() {
 
+        this.hasLoaded = function () {
+            return hasLoaded;
+        };
+
         this.load = function (apiKey, delayMs) {
 
             // Warn if analytics.js has already been loaded, because it most likely
