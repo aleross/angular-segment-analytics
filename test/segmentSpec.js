@@ -1,13 +1,7 @@
 describe('segment', function () {
     'use strict';
 
-    var segment;
-
     beforeEach(module('ngSegment'));
-
-    beforeEach(inject(function (_segment_) {
-        segment = _segment_;
-    }));
 
     it('should be able to debug log', function () {
 
@@ -18,7 +12,14 @@ describe('segment', function () {
     });
 
     it('should set events object on events property', function () {
+        var events = { TEST: 'Test' };
+        module('ngSegment', function (segmentProvider) {
+            segmentProvider.setEvents(events);
+        });
 
+        inject(function (segment) {
+            expect(segment.events.TEST).toEqual(events.TEST);
+        });
     });
 
     /**

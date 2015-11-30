@@ -133,7 +133,11 @@ angular.module('ngSegment').constant('segmentDefaultConfig', {
         };
     };
 
-    // Segment service
+    /**
+     * Segment service
+     * @param config
+     * @constructor
+     */
     function Segment(config) {
 
         this.config = config;
@@ -158,7 +162,10 @@ angular.module('ngSegment').constant('segmentDefaultConfig', {
         };
     }
 
-    // Methods available on both segment service and segmentProvider
+    /**
+     * Methods available on both segment service and segmentProvider
+     * @type {{init: Function, debug: Function}}
+     */
     Segment.prototype = {
 
         // Creates analytics.js method stubs
@@ -183,7 +190,12 @@ angular.module('ngSegment').constant('segmentDefaultConfig', {
         },
     };
 
-    // Segment provider available during .config() Angular app phase. Inherits from Segment prototype.
+    /**
+     * Segment provider available during .config() Angular app phase. Inherits from Segment prototype.
+     * @param segmentDefaultConfig
+     * @constructor
+     * @extends Segment
+     */
     function SegmentProvider(segmentDefaultConfig) {
 
         this.config = angular.copy(segmentDefaultConfig);
@@ -323,6 +335,11 @@ angular.module('ngSegment').constant('segmentDefaultConfig', {
 
             // Pass any provider-set configuration down to the service
             var segment = new Segment(angular.copy(this.config));
+
+            // Transfer events if set
+            if (this.events) {
+                segment.events = angular.copy(this.events);
+            }
 
             // Set up service method stubs
             segment.init();
