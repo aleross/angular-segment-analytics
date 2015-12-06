@@ -8,5 +8,9 @@
     "requireSpacesInFunctionExpression": {
         "beforeOpeningRoundBrace": true
     },
-    "disallowMultipleVarDecl": null
+    "disallowMultipleVarDecl": null,
+    "requireTrailingComma": {
+        "ignoreSingleLine": true,
+        "ignoreSingleValue": true
+    }
 }

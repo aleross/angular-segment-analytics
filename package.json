@@ -6,6 +6,9 @@
     "url": "https://github.com/aleross/angular-segment-analytics"
   },
   "main": "segment.min.js",
+  "scripts": {
+    "test": "grunt test"
+  },
   "bugs": "https://github.com/aleross/angular-segment-analytics/issues",
   "keywords": [
     "angular",

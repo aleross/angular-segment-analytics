@@ -26,7 +26,7 @@ describe('segmentConfig', function () {
 
         function badConstant() {
             module('ngSegment', function ($provide) {
-                $provide.constant('segmentConfig', { apiKey: null, });
+                $provide.constant('segmentConfig', { apiKey: null });
             });
 
             inject(function (segment) {});
