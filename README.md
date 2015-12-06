@@ -42,7 +42,7 @@ segmentProvider.setKey('abc');
 Most Segment methods (see [Analytics.js](https://segment.com/docs/libraries/analytics.js/)) are available on the `segment` service created by ngSegment.
 
 ```js
-segment.track('action', { prop: 'value' });
+segment.track('event', { prop: 'value' });
 ```
 
 Continue reading about the configuration options, or jump to the [Examples](#examples).
