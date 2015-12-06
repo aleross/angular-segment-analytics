@@ -1,7 +1,7 @@
 module.exports = function (grunt) {
 
     var semver = require('semver');
-    var currentVersion = grunt.file.readJSON('./package.json').version;
+    var currentVersion = grunt.file.readJSON('package.json').version;
 
     return {
         version: {
