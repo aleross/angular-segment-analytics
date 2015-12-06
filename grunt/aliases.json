@@ -1,12 +1,15 @@
 {
-    "develop": [
-        "karma:watch:start",
-        "watch"
-    ],
     "build": [
         "jscs",
         "concat",
         "uglify"
+    ],
+    "release": [
+        "build",
+        "test",
+        "prompt",
+        "bump",
+        "npm-publish"
     ],
     "test": [
         "karma:unit",

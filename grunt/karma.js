@@ -21,8 +21,4 @@ module.exports = {
             dir: 'coverage/',
         },
     },
-    watch: {
-        singleRun: false,
-        background: true,
-    },
 };
