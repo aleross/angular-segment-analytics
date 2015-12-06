@@ -14,7 +14,6 @@ A highly configurable module for easily adding Segment analytics to any Angular 
 - [Configuration](#configuration)
     - [Provider](#provider)
     - [Constant](#constant)
-    - [Service](#service)
 - [API Documentation](#api-documentation)
 - [Examples](#examples)
 
