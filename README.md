@@ -31,7 +31,7 @@ A highly configurable module for easily adding Segment analytics to any Angular 
 
 ## Usage
 
-Set your API key using any of the configuration methods provided ([provider](#provider), [constant](#constant), or [service](#service)), and you're ready to start using Segment in your app.
+Set your API key using either of the configuration methods provided ([provider](#provider) or [constant](#constant)), and you're ready to start using Segment in your app.
 
 ```js
 // analytics.js will be asynchronously auto-loaded
