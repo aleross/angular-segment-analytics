@@ -1,4 +1,10 @@
 # ngSegment: [Segment](https://segment.com) analytics for [AngularJS](https://angular.io/)
+[![Build Status](https://travis-ci.org/aleross/angular-segment-analytics.svg)](https://travis-ci.org/aleross/angular-segment-analytics)
+[![Latest Release](https://img.shields.io/github/release/aleross/angular-segment-analytics.svg)](https://github.com/aleross/angular-segment-analytics/releases)
+[![Dependencies Status](https://david-dm.org/aleross/angular-segment-analytics.svg)](https://david-dm.org/aleross/angular-segment-analytics.svg)
+[![devDependency Status](https://david-dm.org/aleross/angular-segment-analytics/dev-status.png)](https://david-dm.org/aleross/angular-segment-analytics/dev-status.png)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/aleross/angular-segment-analytics/blob/master/LICENSE)
+
 A highly configurable module for adding Segment analytics to any Angular app.
 
 ## Table of Contents
