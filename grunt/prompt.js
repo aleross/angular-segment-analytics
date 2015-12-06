@@ -15,20 +15,20 @@ module.exports = function (grunt) {
                         choices: [
                             {
                                 value: 'patch',
-                                name:  'Patch:  ' + semver.inc(currentVersion, 'patch') + ' Backwards-compatible bug fixes.'
+                                name:  'Patch:  ' + semver.inc(currentVersion, 'patch') + ' Backwards-compatible bug fixes.',
                             },
                             {
                                 value: 'minor',
-                                name:  'Minor:  ' + semver.inc(currentVersion, 'minor') + ' Add functionality in a backwards-compatible manner.'
+                                name:  'Minor:  ' + semver.inc(currentVersion, 'minor') + ' Add functionality in a backwards-compatible manner.',
                             },
                             {
                                 value: 'major',
-                                name:  'Major:  ' + semver.inc(currentVersion, 'major') + ' Incompatible API changes.'
-                            }
-                        ]
-                    }
-                ]
-            }
-        }
-    }
+                                name:  'Major:  ' + semver.inc(currentVersion, 'major') + ' Incompatible API changes.',
+                            },
+                        ],
+                    },
+                ],
+            },
+        },
+    };
 };

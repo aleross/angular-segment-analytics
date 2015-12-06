@@ -1,20 +1,22 @@
 (function (module) {
 
-    var hasLoaded = false;
+    function SegmentLoader(hasLoaded) {
 
-    function SegmentLoader() {
+        this.hasLoaded = hasLoaded || false;
 
         this.load = function (apiKey, delayMs) {
 
-            if (hasLoaded) {
-                console.warn('Attempting to load Segment twice.');
+            // If analytics.js has already been loaded, it most likely
+            // means the user has made an error
+            if (this.hasLoaded || window.analytics.initialized) {
+                throw new Error('Attempting to load Segment twice.');
             } else {
 
                 // Only load if we've been given or have set an API key
                 if (apiKey) {
 
                     // Prevent double .load() calls
-                    hasLoaded = true;
+                    this.hasLoaded = true;
 
                     window.setTimeout(function () {
 
@@ -22,7 +24,7 @@
                         var script = document.createElement('script');
                         script.type = 'text/javascript';
                         script.async = true;
-                        script.src = ('https:' === document.location.protocol
+                        script.src = (document.location.protocol === 'https:'
                                 ? 'https://' : 'http://')
                             + 'cdn.segment.com/analytics.js/v1/'
                             + apiKey + '/analytics.min.js';
@@ -36,7 +38,7 @@
                         first.parentNode.insertBefore(script, first);
                     }, delayMs);
                 } else {
-                    console.warn('Cannot load Segment without an API key.');
+                    throw new Error('Cannot load Analytics.js without an API key.');
                 }
             }
         };
@@ -48,8 +50,8 @@
         SegmentLoader.call(this);
 
         this.$get = function () {
-            return new SegmentLoader();
-        }
+            return new SegmentLoader(this.hasLoaded);
+        };
     }
 
     // Register with Angular

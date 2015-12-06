@@ -2,10 +2,10 @@ module.exports = {
     options: { livereload: false },
     js: {
         files: ['src/**/*.js'],
-        tasks: ['build']
+        tasks: ['karma:watch:run', 'build'],
     },
     livereload: {
-        files: [ 'segment.js', 'example.html' ],
-        options: { livereload: true }
-    }
+        files: ['segment.js', 'example.html'],
+        options: { livereload: true },
+    },
 };
