@@ -6,7 +6,7 @@
 [![devDependency Status](https://david-dm.org/aleross/angular-segment-analytics/dev-status.png)](https://david-dm.org/aleross/angular-segment-analytics/dev-status.png)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/aleross/angular-segment-analytics/blob/master/LICENSE)
 
-A highly configurable module for adding Segment analytics to any Angular app.
+A highly configurable module for easily adding Segment analytics to any Angular app.
 
 ## Table of Contents
 - [Get Started](#get-started)
@@ -14,7 +14,6 @@ A highly configurable module for adding Segment analytics to any Angular app.
 - [Configuration](#configuration)
     - [Provider](#provider)
     - [Constant](#constant)
-    - [Service](#service)
 - [API Documentation](#api-documentation)
 - [Examples](#examples)
 
@@ -42,7 +41,7 @@ segmentProvider.setKey('abc');
 Most Segment methods (see [Analytics.js](https://segment.com/docs/libraries/analytics.js/)) are available on the `segment` service created by ngSegment.
 
 ```js
-segment.track('action', { prop: 'value' });
+segment.track('event', { prop: 'value' });
 ```
 
 Continue reading about the configuration options, or jump to the [Examples](#examples).
@@ -50,9 +49,9 @@ Continue reading about the configuration options, or jump to the [Examples](#exa
 
 ## Configuration
 
-ngSegment can be configured in any of 3 ways: using a provider, constant or service. These 3 options are available so you can pick the mechanism that fits your application best. The provider or constant are recommended because typically it's best to configure 3rd party libraries in the config phase of your application. 
+ngSegment provides two configuration mechanisms: using a provider or constant. These options are available so you can pick the mechanism that fits your application best.
 
-It is not recommended to mix configuration mechanisms, but if you do they're applied in the order listed in this documentation (provider, constant then service) and conflicting settings will be overridden.
+It is not recommended to mix configuration mechanisms, but if you do configuration via constant will take precedence.
 
 ### Provider
 
@@ -93,26 +92,9 @@ angular.module('myApp').constant('segmentConfig', {
 
 Read more about [AngularJS constants](https://docs.angularjs.org/api/auto/service/$provide#constant).
 
-### Service
-
-If your API key or other configuration parameters are only available in the run phase of your application then you can load Analytics.js using `segmentLoader.load(apiKey)`, and configure using the `segment` service:
-```js
-angular.module('myApp').controller(function (segment, segmentLoader) {
-    segment.setCondition(function ($rootScope) {
-        return $rootScope.isProduction;
-    });
-    
-    // If you don't set the API key using the provider or constant
-    // then you need to manually load Analytics.js
-    segmentLoader.load('abc');
-});
-```
-
-Typically you should configure 3rd party libraries before the `run()` phase of your AngularJS application, so it's recommended that you use the **provider** or **constant** mechanism for configuring `ngSegment` instead of the service.
-
 ## API Documentation
 
-The configuration API is available on the `segmentProvider` and `segment` service. For configuring via a constant, see [`defaultSegmentConfig`](https://github.com/aleross/angular-segment-analytics/blob/master/src/config.js) for the property names to override. 
+The configuration API is available on the `segmentProvider`. For configuring via a constant, see [`defaultSegmentConfig`](https://github.com/aleross/angular-segment-analytics/blob/master/src/config.js) for the property names to override. 
 
 All configuration methods are chainable:
 ```js
@@ -150,7 +132,7 @@ segmentProvider.setCondition(function ($rootScope, method, arguments) {
 ### setAutoload(boolean)
 **Default:** `true`
 
-ngSegment autoloads Segment's Analytics.js before the AngularJS `.run()` phase if an API key has been set. Set autoload to false if you're including analytics.js in your build script.
+ngSegment autoloads Segment's Analytics.js before the AngularJS `.run()` phase if an API key has been set. Set autoload to false if you already include analytics.js in your build script.
 
 If you need to load the Segment analytics.js script on-demand, you can use the `segmentLoader` or `segmentLoaderProvider`:
 
