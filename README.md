@@ -119,10 +119,10 @@ segmentProvider.setCondition(function ($rootScope) {
 });
 ```
 
-The callback function is also injected with the analytics.js method name and arguments being called.
+The callback function is also injected with the analytics.js method name and parameters being called.
 ```js
 // Disble tracking for admin users
-segmentProvider.setCondition(function ($rootScope, method, arguments) {
+segmentProvider.setCondition(function ($rootScope, method, params) {
     if (!(method === 'track' and $rootScope.user.isAdmin)) {
         return true;
     }
@@ -224,7 +224,9 @@ The `segment` service and `segmentProvider` implement most methods from [Analyti
 
 ### Page tracking
 ```js
-$rootScope.$on('$routeChangeSuccess', segment.pageview);
+$rootScope.$on('$routeChangeSuccess', function () {
+    segment.page();
+});
 ```
 
 ### Event tracking
