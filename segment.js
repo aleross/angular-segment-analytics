@@ -157,7 +157,7 @@ angular.module('ngSegment').constant('segmentDefaultConfig', {
 
                 //  No condition set, call the Segment method
                 this.debug('Calling method ' + method + ' with arguments:', arguments);
-                return analytics[method].apply(analytics, arguments);
+                return window.analytics[method].apply(analytics, arguments);
             }).bind(this);
         };
     }

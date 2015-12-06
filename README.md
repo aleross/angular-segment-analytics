@@ -224,9 +224,7 @@ The `segment` service and `segmentProvider` implement most methods from [Analyti
 
 ### Page tracking
 ```js
-$rootScope.$on('$routeChangeSuccess', function () {
-  segment.pageview($location.path());
-});
+$rootScope.$on('$routeChangeSuccess', segment.pageview);
 ```
 
 ### Event tracking

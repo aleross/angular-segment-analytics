@@ -14,13 +14,13 @@
 
             // Provider configuration
             angular.module('example', ['ngSegment']).config(function (segmentProvider, ExampleEvents) {
-                segmentProvider.setDebug(true).setAutoload(false).setEvents(ExampleEvents);
+                segmentProvider.setDebug(true).setEvents(ExampleEvents);
                 segmentProvider.track('test');
             });
 
             // Events constant example. This is optional.
             angular.module('example').constant('ExampleEvents', {
-                TEST_EVENT: 'test'
+                TEST_EVENT: 'Test Event'
             });
 
             angular.module('example').constant('segmentConfig', {
@@ -29,9 +29,12 @@
             });
 
             // Service configuration and usage
-            angular.module('example').controller('ExampleController', function (segment, segmentLoader) {
+            angular.module('example').controller('ExampleController', function ($scope, segment, segmentLoader) {
                 segment.track('controller test');
-                segment.track('2');
+
+                $scope.test = function () {
+                    segment.track(segment.events.TEST_EVENT, { foo: 'bar' });
+                };
 
             //    segmentLoader.load(segment.config.apiKey);
             });
@@ -47,7 +50,7 @@
             </div>
         </div>
         <div class="container">
-
+            <button class="btn btn-primary" ng-click="test()">Test</button>
         </div>
     </body>
 </html>
