@@ -293,8 +293,7 @@ angular.module('ngSegment').constant('segmentDefaultConfig', {
             }
         };
 
-        // Returns segment service and creates dependency-injected condition callback, if provided
-        this.$get = function ($injector, segmentLoader) {
+        this.createService = function ($injector, segmentLoader) {
 
             // Apply user-provided config constant if it exists
             if ($injector.has('segmentConfig')) {
@@ -349,6 +348,9 @@ angular.module('ngSegment').constant('segmentDefaultConfig', {
 
             return segment;
         };
+
+        // Returns segment service and creates dependency-injected condition callback, if provided
+        this.$get = ['$injector', 'segmentLoader', this.createService];
     }
 
     SegmentProvider.prototype = Object.create(Segment.prototype);
