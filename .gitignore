@@ -9,6 +9,7 @@ dist/
 tmp/
 node_modules/
 bower_components/
+coverage
 
 # IntelliJ
 .idea/

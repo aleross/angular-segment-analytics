@@ -9,6 +9,7 @@
         "uglify"
     ],
     "test": [
-        "karma:unit"
+        "karma:unit",
+        "coveralls"
     ]
 }

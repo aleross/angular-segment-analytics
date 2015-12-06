@@ -12,6 +12,14 @@ module.exports = {
     },
     unit: {
         singleRun: true,
+        preprocessors: {
+            'segment.js': 'coverage'
+        },
+        reporters: ['coverage'],
+        coverageReporter: {
+            type: 'lcov',
+            dir: 'coverage/',
+        },
     },
     watch: {
         singleRun: false,

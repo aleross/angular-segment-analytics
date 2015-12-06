@@ -1,5 +1,6 @@
 # ngSegment: [Segment](https://segment.com) analytics for [AngularJS](https://angular.io/)
 [![Build Status](https://travis-ci.org/aleross/angular-segment-analytics.svg)](https://travis-ci.org/aleross/angular-segment-analytics)
+[![Coverage Status](https://coveralls.io/repos/aleross/angular-segment-analytics/badge.svg?branch=master&service=github)](https://coveralls.io/github/aleross/angular-segment-analytics?branch=master)
 [![Latest Release](https://img.shields.io/github/release/aleross/angular-segment-analytics.svg)](https://github.com/aleross/angular-segment-analytics/releases)
 [![Dependencies Status](https://david-dm.org/aleross/angular-segment-analytics.svg)](https://david-dm.org/aleross/angular-segment-analytics.svg)
 [![devDependency Status](https://david-dm.org/aleross/angular-segment-analytics/dev-status.png)](https://david-dm.org/aleross/angular-segment-analytics/dev-status.png)
