@@ -73,7 +73,7 @@ segmentProvider.identify('user-id', {});
 
 ### Constant
 
-You can also set any of the configuration options available by providing your own `segmentConfig` constant. You only need to register your constant with your own app using `angular.module('myApp').constant('myConstant', {});`, and the `segmentProvider` will find it.
+You can also set any of the configuration options available by providing your own `segmentConfig` constant. You only need to register your constant with your own app using `angular.module('myApp').constant('segmentConfig', {});`, and the `segmentProvider` will find it.
 
 Your `segmentConfig` constant should overwrite the properties found in [segmentDefaultConfig](https://github.com/aleross/angular-segment-analytics/blob/master/src/config.js). Any properties not overridden will default to the values found in that file.
 
