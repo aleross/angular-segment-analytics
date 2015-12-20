@@ -75,7 +75,7 @@ segmentProvider.identify('user-id', {});
 
 You can also set any of the configuration options available by providing your own `segmentConfig` constant. You only need to register your constant with your own app using `angular.module('myApp').constant('segmentConfig', {});`, and the `segmentProvider` will find it.
 
-Your `segmentConfig` constant should overwrite the properties found in [segmentDefaultConfig](https://github.com/aleross/angular-segment-analytics/blob/master/src/config.js). Any properties not overridden will default to the values found in that file.
+Your `segmentConfig` constant should overwrite the properties found in [`segmentDefaultConfig`](https://github.com/aleross/angular-segment-analytics/blob/master/src/config.js). Any properties not overridden will default to the values found in that file.
 
 ```js
 angular.module('myApp').constant('segmentConfig', {
@@ -92,7 +92,7 @@ Read more about [AngularJS constants](https://docs.angularjs.org/api/auto/servic
 
 ## API Documentation
 
-The configuration API is available on the `segmentProvider`. For configuring via a constant, see [`defaultSegmentConfig`](https://github.com/aleross/angular-segment-analytics/blob/master/src/config.js) for the property names to override. 
+The configuration API is available on the `segmentProvider`. For configuring via a constant, see [`segmentDefaultConfig`](https://github.com/aleross/angular-segment-analytics/blob/master/src/config.js) for the property names to override. 
 
 All configuration methods are chainable:
 ```js
@@ -201,7 +201,7 @@ Enables debug log statements that are helpful for troubleshooting or when first 
 
 ### setConfig(object)
 
-Convenience method for setting multiple config properties at once using an object that matches the property names of [`defaultSegmentConfig`](https://github.com/aleross/angular-segment-analytics/blob/master/src/config.js).
+Convenience method for setting multiple config properties at once using an object that matches the property names of [`segmentDefaultConfig`](https://github.com/aleross/angular-segment-analytics/blob/master/src/config.js).
 
 ```js
 angular.module('myApp').config(function (segmentProvider) {
