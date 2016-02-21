@@ -1,7 +1,6 @@
 module.exports = {
     options: {
         files: [
-            'bower_components/bind-polyfill/index.js', // PhantomJS 1.x doesn't support Function.prototype.bind
             'bower_components/angular/angular.js',
             'bower_components/angular-mocks/angular-mocks.js',
             'segment.js',
@@ -15,7 +14,7 @@ module.exports = {
         preprocessors: {
             'segment.js': 'coverage'
         },
-        reporters: ['coverage'],
+        reporters: ['progress', 'coverage'],
         coverageReporter: {
             type: 'lcov',
             dir: 'coverage/',

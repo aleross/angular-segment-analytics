@@ -144,11 +144,12 @@ angular.module('ngSegment').constant('segmentDefaultConfig', {
 
         // Checks condition before calling Segment method
         this.factory = function (method) {
-            return (function () {
+            var _this = this;
+            return function () {
 
                 // If a condition has been set, only call the Segment method if it returns true
-                if (this.config.condition && !this.config.condition(method, arguments)) {
-                    this.debug('Not calling method, condition returned false.', {
+                if (_this.config.condition && !_this.config.condition(method, arguments)) {
+                    _this.debug('Not calling method, condition returned false.', {
                         method: method,
                         arguments: arguments,
                     });
@@ -156,9 +157,9 @@ angular.module('ngSegment').constant('segmentDefaultConfig', {
                 }
 
                 //  No condition set, call the Segment method
-                this.debug('Calling method ' + method + ' with arguments:', arguments);
+                _this.debug('Calling method ' + method + ' with arguments:', arguments);
                 return window.analytics[method].apply(analytics, arguments);
-            }).bind(this);
+            };
         };
     }
 
@@ -248,9 +249,10 @@ angular.module('ngSegment').constant('segmentDefaultConfig', {
             angular.extend(this.config, config);
 
             // Validate new settings
-            Object.keys(config).forEach((function (key) {
-                this.validate(key);
-            }).bind(this));
+            var _this = this;
+            Object.keys(config).forEach(function (key) {
+                _this.validate(key);
+            });
 
             return this;
         };
@@ -306,9 +308,10 @@ angular.module('ngSegment').constant('segmentDefaultConfig', {
                 this.debug('Found segment config constant');
 
                 // Validate settings passed in by constant
-                Object.keys(constant).forEach((function (key) {
-                    this.validate(key);
-                }).bind(this));
+                var _this = this;
+                Object.keys(constant).forEach(function (key) {
+                    _this.validate(key);
+                });
             }
 
             // Autoload Segment on service instantiation if an API key has been set via the provider

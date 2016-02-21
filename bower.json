@@ -33,7 +33,6 @@
     "angular": "latest"
   },
   "devDependencies": {
-    "angular-mocks": "~1.4.8",
-    "bind-polyfill": "~1.0.0"
+    "angular-mocks": "~1.4.8"
   }
 }
