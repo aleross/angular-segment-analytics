@@ -5,7 +5,7 @@
     "type": "git",
     "url": "https://github.com/aleross/angular-segment-analytics"
   },
-  "main": "segment.min.js",
+  "main": "index.js",
   "scripts": {
     "test": "grunt test"
   },
