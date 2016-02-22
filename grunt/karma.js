@@ -7,7 +7,7 @@ module.exports = {
             'test/*.js',
         ],
         frameworks: ['jasmine'],
-        browsers: ['PhantomJS'],
+        browsers: ['PhantomJS2'],
     },
     unit: {
         singleRun: true,
