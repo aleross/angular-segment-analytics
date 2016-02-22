@@ -4,7 +4,7 @@
 [![Dependencies Status](https://david-dm.org/aleross/angular-segment-analytics.svg)](https://david-dm.org/aleross/angular-segment-analytics.svg)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/aleross/angular-segment-analytics/blob/master/LICENSE)
 
-A highly configurable module for easily adding Segment analytics to any Angular app.
+A highly configurable module for easily adding Segment analytics to any Angular app. Like the project? Star it!
 
 ## Table of Contents
 - [Get Started](#get-started)
