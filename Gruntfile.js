@@ -9,7 +9,8 @@ module.exports = function(grunt) {
         // Autoload tasks
         jitGrunt: {
             staticMappings: {
-                coveralls: 'grunt-karma-coveralls'
+                coveralls: 'grunt-karma-coveralls',
+                'npm-publish': 'grunt-npm',
             }
         },
     });
