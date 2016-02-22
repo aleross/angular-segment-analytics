@@ -5,10 +5,11 @@
         this.hasLoaded = hasLoaded || false;
 
         this.load = function (apiKey, delayMs) {
+            if (window.analytics.initialized) {
+                console.warn('Warning: Segment analytics has already been initialized. Did you already load the library?');
+            }
 
-            // If analytics.js has already been loaded, it most likely
-            // means the user has made an error
-            if (this.hasLoaded || window.analytics.initialized) {
+            if (this.hasLoaded) {
                 throw new Error('Attempting to load Segment twice.');
             } else {
 

@@ -3,7 +3,6 @@ describe('segmentLoader', function () {
 
     beforeEach(function () {
         module('ngSegment');
-        window.analytics.initialized = false;
     });
 
     it('should require an API key to load Analytics.js', function () {
@@ -22,12 +21,13 @@ describe('segmentLoader', function () {
         });
     });
 
-    it('should not allow loading Analytics.js if it has already been included', function () {
+    it('should warn the user if analytics.js may have already been included', function () {
         inject(function (segment, segmentLoader) {
             window.analytics.initialized = true;
-            expect(function () {
-                segmentLoader.load('abc');
-            }).toThrow(new Error('Attempting to load Segment twice.'));
+            spyOn(console, 'warn');
+            segmentLoader.load('abc');
+            expect(console.warn).toHaveBeenCalledWith('Warning: Segment analytics has already been initialized. Did you already load the library?');
+            window.analytics.initialized = false;
         });
     });
 
