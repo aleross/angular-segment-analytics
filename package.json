@@ -19,8 +19,8 @@
   "author": "aleross",
   "license": "MIT",
   "homepage": "https://github.com/aleross/angular-segment-analytics",
-  "dependencies": {
-    "angular": "latest"
+  "peerDependencies": {
+    "angular": "1.x.x"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
