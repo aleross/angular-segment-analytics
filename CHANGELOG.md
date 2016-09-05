@@ -2,6 +2,7 @@
 
 ### v1.2.0 (2016/9/5)
 - [#17](https://github.com/aleross/angular-segment-analytics/pull/17) Add support for strict DI in condition (stwiname)
+- [#18](https://github.com/aleross/angular-segment-analytics/pull/18) Add changelog
 
 ### v1.1.12 (2016/08/21)
 - [#15](https://github.com/aleross/angular-segment-analytics/pull/15) Make angular a peer dependency (robinjoseph08)
