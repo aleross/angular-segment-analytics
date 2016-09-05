@@ -9,8 +9,5 @@
         "beforeOpeningRoundBrace": true
     },
     "disallowMultipleVarDecl": null,
-    "requireTrailingComma": {
-        "ignoreSingleLine": true,
-        "ignoreSingleValue": true
-    }
+    "requireTrailingComma": false
 }
