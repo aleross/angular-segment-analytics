@@ -89,6 +89,14 @@ describe('segment', function () {
         });
     });
 
+    it('should allow the condition to be set with strict DI annotation', function () {
+        module('ngSegment', ['segmentProvider', function (segmentProvider) {
+            segmentProvider.setCondition(['$http', function ($http) {
+                console.log('$http is a ' + typeof $http);
+            }]);
+        }]);
+    });
+
     it('should queue method calls when used before Analytics.js has loaded', function () {
         inject(function (segment, $window) {
             segment.track('test');

@@ -171,8 +171,11 @@
             },
 
             condition: function (config) {
-                if (!angular.isFunction(config.condition)) {
-                    throw new Error(config.tag + 'Condition callback must be a function.');
+                if (!angular.isFunction(config.condition) &&
+                    !(angular.isArray(config.condition) &&
+                      angular.isFunction(config.condition[config.condition.length - 1]))
+                    ) {
+                    throw new Error(config.tag + 'Condition callback must be a function or array.');
                 }
             },
         };
@@ -215,7 +218,10 @@
             }
 
             // Create dependency-injected condition
-            if (typeof this.config.condition === 'function') {
+            if (typeof this.config.condition === 'function' ||
+                (typeof this.config.condition === 'array' &&
+                 typeof this.config.condition[this.config.condition - 1] === 'function')
+                ) {
                 var condition = this.config.condition;
                 this.config.condition = function (method, params) {
                     return $injector.invoke(condition, condition, { method: method, params: params });

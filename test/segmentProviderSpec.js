@@ -73,7 +73,7 @@ describe('segmentProvider', function () {
         module('ngSegment', function (segmentProvider) {
             expect(function () {
                 segmentProvider.setCondition();
-            }).toThrow(new Error(segmentProvider.config.tag + 'Condition callback must be a function.'));
+            }).toThrow(new Error(segmentProvider.config.tag + 'Condition callback must be a function or array.'));
         });
 
         inject(function (segment) {});
