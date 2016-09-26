@@ -21,11 +21,147 @@ describe('segment', function () {
             segmentProvider.setDebug(true);
         });
 
-        spyOn(console, 'log');
-
-        inject(function (segment) {
+        inject(function (segment, $log) {
+            $log.reset();
             segment.debug('Test debug');
-            expect(console.log).toHaveBeenCalledWith(segment.config.tag + 'Test debug');
+            expect(
+              $log.log.logs[0]
+            ).toContain(segment.config.tag + 'Test debug');
+        });
+    });
+
+    it('should be able to set custom log level', function () {
+        module(function (segmentProvider) {
+            segmentProvider.setDebug(true);
+            segmentProvider.setDebugLevel('info');
+        });
+
+        inject(function (segment, $log) {
+            $log.reset();
+            segment.debug('Test debug');
+
+            expect(
+              $log.log.logs[0]
+            ).not.toContain(segment.config.tag + 'Test debug');
+
+            expect(
+              $log.info.logs[0]
+            ).toContain(segment.config.tag + 'Test debug');
+        });
+    });
+
+    describe('logger', function () {
+        beforeEach(module(function (segmentProvider) {
+            segmentProvider.setDebug(true);
+        }));
+
+        it('should be able to set custom logger as a service name', function () {
+            module('ngSegment', function (segmentProvider) {
+                segmentProvider.setLogger('$log');
+            });
+
+            inject(function (segment, $log) {
+                spyOn($log, 'log');
+
+                segment.debug('Test debug');
+                expect($log.log).toHaveBeenCalledWith(segment.config.tag + 'Test debug');
+            });
+        });
+
+        it('should be able to set custom logger as an object', function () {
+            var logger = {
+                log: jasmine.createSpy('logger.log'),
+            };
+
+            module(function (segmentProvider) {
+                segmentProvider.setLogger(logger);
+            });
+
+            inject(function (segment) {
+                segment.debug('Test debug');
+                expect(logger.log).toHaveBeenCalledWith(segment.config.tag + 'Test debug');
+            });
+        });
+
+        it('should be able to set custom logger a function', function () {
+            var logger = jasmine.createSpy('logger function');
+
+            module(function (segmentProvider) {
+                segmentProvider.setLogger(logger);
+            });
+
+            inject(function (segment) {
+                segment.debug('Test debug');
+                expect(logger).toHaveBeenCalledWith(segment.config.tag + 'Test debug');
+            });
+        });
+
+        it('should bind custom logger function context with undefined (to' +
+          ' prevent exposing on-the-go logger creation)', function () {
+            var dynamicContextFromLoggerFunction;
+
+            var logger = function () {
+                dynamicContextFromLoggerFunction = this;
+            };
+
+            module(function (segmentProvider) {
+                segmentProvider.setLogger(logger);
+            });
+
+            inject(function (segment) {
+                dynamicContextFromLoggerFunction = 'initialValue';
+                segment.debug('Test debug');
+                expect(dynamicContextFromLoggerFunction).toBe(undefined);
+            });
+        });
+
+        it('should use logger from `segmentConfig` constant', function () {
+            var loggerMethod = jasmine.createSpy('testLogger.spy');
+
+            module(function ($provide) {
+                $provide.service('testLogger', function () {
+                    return {
+                        log: loggerMethod,
+                    }
+                });
+                $provide.constant('segmentConfig', {
+                    logger: 'testLogger',
+                })
+            });
+
+            inject(function (segment) {
+                segment.debug('Test debug');
+                expect(loggerMethod).toHaveBeenCalledWith(segment.config.tag + 'Test debug');
+            });
+        });
+
+        it('should warn if `segmentConfig` misconfigures `logger`', function () {
+            module(function ($provide) {
+                $provide.constant('segmentConfig', {
+                    logger: false,
+                })
+            });
+
+            expect(function () {
+                inject(function (segment) {
+                });
+            }).toThrow();
+        });
+
+        it('should use $log if logger is set to null', function () {
+            module(function ($provide) {
+                $provide.constant('segmentConfig', {
+                    logger: null,
+                })
+            });
+
+            inject(function (segment, $log) {
+                $log.reset();
+                segment.debug('Test debug');
+                expect(
+                  $log.log.logs[0]
+                ).toContain(segment.config.tag + 'Test debug');
+            });
         });
     });
 
