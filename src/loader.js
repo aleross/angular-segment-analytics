@@ -23,11 +23,12 @@
 
                         // Create an async script element based on your key.
                         var script = document.createElement('script');
+                        var protocol = document.location.protocol.match(/^(https:|chrome-extension:)$/)
+                            ? 'https://' : 'http://';
+
                         script.type = 'text/javascript';
                         script.async = true;
-                        script.src = (document.location.protocol === 'https:'
-                                ? 'https://' : 'http://')
-                            + 'cdn.segment.com/analytics.js/v1/'
+                        script.src = protocol + 'cdn.segment.com/analytics.js/v1/'
                             + apiKey + '/analytics.min.js';
 
                         script.onerror = function () {
