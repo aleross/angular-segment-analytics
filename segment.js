@@ -75,7 +75,7 @@ angular.module('ngSegment').constant('segmentDefaultConfig', {
                         script.type = 'text/javascript';
                         script.async = true;
                         script.src = (document.location.protocol === 'https:'
-                                ? 'https://' : 'http://')
+                            ? 'https://' : 'http://')
                             + 'cdn.segment.com/analytics.js/v1/'
                             + apiKey + '/analytics.min.js';
 
@@ -284,8 +284,8 @@ angular.module('ngSegment').constant('segmentDefaultConfig', {
             condition: function (config) {
                 if (!angular.isFunction(config.condition) &&
                     !(angular.isArray(config.condition) &&
-                      angular.isFunction(config.condition[config.condition.length - 1]))
-                    ) {
+                        angular.isFunction(config.condition[config.condition.length - 1]))
+                ) {
                     throw new Error(config.tag + 'Condition callback must be a function or array.');
                 }
             },
@@ -330,9 +330,9 @@ angular.module('ngSegment').constant('segmentDefaultConfig', {
 
             // Create dependency-injected condition
             if (typeof this.config.condition === 'function' ||
-                (typeof this.config.condition === 'array' &&
-                 typeof this.config.condition[this.config.condition - 1] === 'function')
-                ) {
+                (angular.isArray(this.config.condition) &&
+                    typeof this.config.condition[this.config.condition.length - 1] === 'function')
+            ) {
                 var condition = this.config.condition;
                 this.config.condition = function (method, params) {
                     return $injector.invoke(condition, condition, { method: method, params: params });
