@@ -330,8 +330,8 @@ angular.module('ngSegment').constant('segmentDefaultConfig', {
 
             // Create dependency-injected condition
             if (typeof this.config.condition === 'function' ||
-                (typeof this.config.condition === 'array' &&
-                 typeof this.config.condition[this.config.condition - 1] === 'function')
+                (angular.isArray(this.config.condition) &&
+                 typeof this.config.condition[this.config.condition.length - 1] === 'function')
                 ) {
                 var condition = this.config.condition;
                 this.config.condition = function (method, params) {
