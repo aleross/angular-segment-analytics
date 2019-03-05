@@ -76,7 +76,7 @@
         debug: function () {
             if (this.config.debug) {
                 arguments[0] = this.config.tag + arguments[0];
-                console.log.apply(console, arguments);
+                this.logger[this.config.debugLevel].apply(this.logger, arguments);
                 return true;
             }
         },
@@ -123,6 +123,18 @@
         this.setCondition = function (callback) {
             this.config.condition = callback;
             this.validate('condition');
+            return this;
+        };
+
+        this.setLogger = function (logger) {
+            this.config.logger = logger;
+            this.validate('logger');
+            return this;
+        };
+
+        this.setDebugLevel = function (level) {
+            this.config.debugLevel = level;
+            this.validate('debugLevel');
             return this;
         };
 
@@ -178,6 +190,58 @@
                     throw new Error(config.tag + 'Condition callback must be a function or array.');
                 }
             },
+
+            logger: function (config) {
+                if (
+                  !angular.isFunction(config.logger) &&
+                  !angular.isObject(config.logger) &&
+                  !angular.isString(config.logger) &&
+                  (config.logger != null)
+                ) {
+                    throw new Error(config.tag + 'Logger must be either' +
+                      ' an object or a string or a function or' +
+                      ' undefined/null.');
+                }
+
+                var debugLevelType = typeof config.debugLevel;
+
+                if (angular.isObject(config.logger)) {
+                    if (debugLevelType !== 'string') {
+                        throw new Error(config.tag + 'Logger given' +
+                          ' as an object requires specifying' +
+                          ' `debugLevel` config as a string.' +
+                          ' `debugLevel` was a `' + debugLevelType + '`');
+                    }
+                    if (!(config.debugLevel in config.logger)) {
+                        throw new Error(config.tag + 'Logger given' +
+                          ' as an object does not have a method called `' +
+                          config.debugLevel + '` (set as' +
+                          ' `debugLevel`). Methods in the given' +
+                          ' object are: `' + Object
+                            .keys(config.logger)
+                            .filter(function (propName) {
+                                return angular.isFunction(config.logger[propName])
+                            })
+                            .join(', ') + '`');
+                    }
+                }
+
+                if (angular.isFunction(config.logger)) {
+                    if (debugLevelType !== 'string') {
+                        throw new Error(config.tag + 'Logger given' +
+                          ' as a function requires specifying' +
+                          ' `debugLevel` config as a string.' +
+                          ' `debugLevel` was a `' + debugLevelType + '`');
+                    }
+                }
+            },
+
+            debugLevel: function (config) {
+                if (!angular.isString(config.debugLevel)) {
+                    throw new Error(config.tag + '`debugLevel` must be' +
+                      ' a string.');
+                }
+            }
         };
 
         // Allows validating a specific property after set[Prop]
@@ -189,6 +253,12 @@
         };
 
         this.createService = function ($injector, segmentLoader) {
+            var provider = this;
+
+            // Logger will be configured as soon as possible but `segmentConfig`
+            // may set up the logger because of that we need to gather messages
+            // logged before logger is set up.
+            var preLoggerDebugMessages = [];
 
             // Apply user-provided config constant if it exists
             if ($injector.has('segmentConfig')) {
@@ -198,7 +268,7 @@
                 }
 
                 angular.extend(this.config, constant);
-                this.debug('Found segment config constant');
+                preLoggerDebugMessages.push('Found segment config constant');
 
                 // Validate settings passed in by constant
                 var _this = this;
@@ -206,6 +276,33 @@
                     _this.validate(key);
                 });
             }
+
+            if ('logger' in this.config && this.config.logger) {
+                switch (typeof this.config.logger) {
+                    case 'string':
+                        if (!$injector.has(this.config.logger)) {
+                            throw new Error(this.config.tag + 'Logger' +
+                              ' service `' + this.config.logger + '` is not' +
+                              ' known.');
+                        }
+                        this.logger = $injector.get(this.config.logger);
+                        break;
+                    case 'object':
+                        this.logger = this.config.logger;
+                        break;
+                    case 'function':
+                        this.logger = {};
+                        this.logger[this.config.debugLevel] =
+                          this.config.logger.bind(undefined);
+                        break;
+                }
+            } else {
+                this.logger = $injector.get('$log');
+            }
+
+            preLoggerDebugMessages.forEach(function (message) {
+                provider.debug(message);
+            });
 
             // Autoload Segment on service instantiation if an API key has been set via the provider
             if (this.config.autoload) {
@@ -244,6 +341,12 @@
             this.queue.forEach(function (item) {
                 segment[item.method].apply(segment, item.arguments);
             });
+
+            // public debug has to be shadowed because it need to have
+            // access to the provider.
+            segment.debug = function () {
+                return Segment.prototype.debug.apply(provider, arguments);
+            };
 
             return segment;
         };

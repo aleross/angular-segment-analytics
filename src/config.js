@@ -22,6 +22,15 @@ angular.module('ngSegment').constant('segmentDefaultConfig', {
     // Debug: turns debug statements on/off. Useful during development.
     debug: false,
 
+    // Allowed values:
+    // - string (in which case it will be interpreted as a name of a
+    // service debug messages will be emitted with, E.g. `$log`)
+    // - object
+    logger: '$log',
+
+    // Decides which method of the logger to use if debug is turned on.
+    debugLevel: 'log',
+
     // Methods: the analytics.js methods that the service creates queueing stubs for.
     methods: [
         'trackSubmit',
